@@ -1,0 +1,72 @@
+<mat-drawer-container  autosize>
+          <mat-drawer #drawer class="example-sidenav" mode="side" [(opened)]="opened">
+
+                <h6 class="logo">BP-PAUD & DIKMAS KALSEL</h6>
+
+          <mat-accordion>
+            <div class="container-side-bar">
+
+              <mat-card class="example-card">
+                <mat-card-header>
+                  <div mat-card-avatar class="example-header-image"></div>
+                  <mat-card-title>Shiba Inu</mat-card-title>
+                  <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+                </mat-card-header>
+              </mat-card>
+
+                <button mat-raised-button *ngIf="state" class="sung" routerLink="/beranda">Beranda</button>
+                <button mat-raised-button class="sung" routerLink="/manajemen-akun">Manajemen Akun</button>
+                <button mat-raised-button class="sung" routerLink="/profil-dinas">Profil Dinas</button>
+                <button mat-raised-button class="sung" routerLink="/pegawai-dinas">Pegawai Dinas</button>
+                <button mat-raised-button class="sung" routerLink="/potensi-daerah">Potensi Daerah</button>
+                <button mat-raised-button class="sung" routerLink="/lembaga-paud">Lembaga PAUD</button>
+                <button mat-raised-button class="sung" routerLink="/lembaga-lkp">Lembaga LKP</button>
+                <button mat-raised-button class="sung" routerLink="/lembaga-pkbm">Lembaga PKBM</button>
+                <button mat-raised-button class="sung" routerLink="/pendidik">Pendidik</button>
+                <button mat-raised-button class="sung" routerLink="/kependidikan">Kependidikan</button>
+                <button mat-raised-button class="sung" routerLink="/peserta-didik">Peserta Didik</button>
+                <button mat-raised-button class="sung" routerLink="/peraturan">Pengaturan</button>
+
+            </div>
+          </mat-accordion>
+            </mat-drawer>
+
+  <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+
+    <header class="app-header navbar">
+
+        <button mat-button class="navbar-toggler sidebar-toggler" type="button"  (click)="drawer.toggle()">
+          <span class="navbar-toggler-icon carousel-control-prev-icon"></span>
+        </button>
+          <button class="navbar-toggler" type="button">
+            <a mat-button class="nav-link" (click)="_auth.logOut()">Log Out</a>
+          </button>
+
+    </header>
+
+    <div class="app-body">
+        <main class="main">
+
+          <div class="container-fluid">
+            <div class="animated fadeIn">
+
+            <router-outlet></router-outlet>
+
+            </div>
+          </div>
+        </main>
+      </div>
+
+
+      <footer class="app-footer">
+        <div>
+          <a href="">Tim Kerja Praktek</a>
+          <span>&copy; 2018 Ilmu Komputer.</span>
+        </div>
+        <div class="ml-auto">
+          <span>Powered by</span>
+          <a href="">CoreUI/Angular5/AngularMaterial/NodeJS</a>
+        </div>
+      </footer>
+
+  </body></mat-drawer-container>

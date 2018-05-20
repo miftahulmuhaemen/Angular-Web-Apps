@@ -1,0 +1,37 @@
+
+<h2 mat-dialog-title>{{description}}</h2>
+
+<mat-dialog-content [formGroup]="form">
+    <div class="container-fluid">
+        <mat-form-field><input matInput placeholder="ID Akun" formControlName="id_akun" readonly="true"></mat-form-field>
+        <mat-form-field>
+          <mat-select formControlName="status_akun" placeholder="Status Akun" (selectionChange)="checkReq()" required>
+            <mat-option value="Super Admin">Super Admin</mat-option>
+            <mat-option value="Admin">Admin</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field><input matInput placeholder="Username" formControlName="username"></mat-form-field>
+        <mat-form-field><input matInput placeholder="Nama Admin" formControlName="nama_admin"></mat-form-field>
+        <mat-form-field><input matInput placeholder="Password" formControlName="password"></mat-form-field>
+
+
+                <mat-form-field>
+                  <mat-select formControlName="id_dinas" placeholder="Dinas" [disabled]="!check">
+                    <mat-option *ngFor="let x of dinas" [value]="x.id_dinas">
+                      {{ x.nama_dinas }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
+    </div>
+</mat-dialog-content>
+
+<div class="container-flex">
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()" [disabled]="!form.valid">Save</button>
+</mat-dialog-actions>
+</div>

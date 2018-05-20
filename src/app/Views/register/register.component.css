@@ -1,0 +1,24 @@
+::ng-deep .mat-form-field{
+      width:100%;
+      font-size: 15;
+    }
+::ng-deep .mb-3{
+  margin-bottom: 0rem !important;
+}
+
+button {
+  float : right;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}

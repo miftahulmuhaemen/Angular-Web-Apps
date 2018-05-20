@@ -1,0 +1,35 @@
+<body class="app flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card mx-4">
+          <form class="card-body p-4" #login="ngForm" (ngSubmit)="OnSubmit(login)">
+            <h1>Login</h1>
+            <p class="text-muted">Please, log in with your provided account.</p>
+
+
+            <div class="input-group mb-3">
+              <mat-form-field>
+                <input matInput name="username" placeholder="Enter your Username"  [ngModel]="login?.username" (ngModelChange)="login?login.username:undefined" required>
+                <mat-error *ngIf="usernameFormControl.hasError('required')">
+                  Username is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="input-group mb-4">
+              <mat-form-field>
+                <input type="password" matInput name="password" placeholder="Enter your password"  [ngModel]="login?.password" (ngModelChange)="login?login.password:undefined" required>
+                <mat-error *ngIf="passwordFormControl.hasError('required')">
+                  Password is required
+                </mat-error>
+            </mat-form-field>
+            </div>
+
+           <button mat-button [disabled]="!login.valid">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
