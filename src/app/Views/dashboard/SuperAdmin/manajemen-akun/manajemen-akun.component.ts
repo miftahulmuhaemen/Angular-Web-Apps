@@ -21,12 +21,15 @@ import { KonfirmasiComponent } from '../../../konfirmasi/konfirmasi.component'
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
+//Jwt Decoder
+import decode from 'jwt-decode';
 
 @Component({
   selector: 'app-manajemen-akun',
   templateUrl: './manajemen-akun.component.html',
   styleUrls: ['./manajemen-akun.component.css']
 })
+
 export class ManajemenAkunComponent implements OnInit {
 
   displayedColumns = ['ID','nama_dinas','username','nama_admin','password','status_akun','aksi','null'];
@@ -65,7 +68,6 @@ export class ManajemenAkunComponent implements OnInit {
                         data.id_dinas = 1;
                     this.registerService.createNewUser(data)
                     .subscribe(
-
                     (data) =>  { this.snakcBar.open("Data Changed!", 'close', { duration : 1000 }), this.get(), this.ngAfterViewInit()},
                     error => this.snakcBar.open("Oops! Data not Send!", 'close', { duration : 1000 })
                 )
@@ -100,7 +102,12 @@ export class ManajemenAkunComponent implements OnInit {
                 } else {
                   this.registerService.editPost(data)
                   .subscribe({
-                      error : err =>  { this.snakcBar.open("Data Created!", 'close', { duration : 1000 }), this.get(), this.ngAfterViewInit()} })
+                      error : err =>  {
+                        if(err instanceof HttpErrorResponse){
+                          if(err.status === 401)
+                            this._router.navigate(['/super-admin/beranda'])
+                        }
+                        this.snakcBar.open("Data Created!", 'close', { duration : 1000 }), this.get(), this.ngAfterViewInit()} })
                 }
           }
       );
@@ -116,32 +123,43 @@ export class ManajemenAkunComponent implements OnInit {
         id_akun : index
       }
 
-    // RESTful API DeleteUser
-    const dialogRef = this.dialog.open(KonfirmasiComponent, dialogConfig);
-        dialogRef.afterClosed().subscribe(
-        data =>
-          {
-                if(data == undefined){
-                    this.snakcBar.open("You cancel the Delete.", 'close', { duration : 1000 })
-                } else {
 
-                  if(data == true) {
-                      this.registerService.deleteUser(dialogConfig.data).subscribe({
-                        error : err =>  { this.snakcBar.open("Data Changed!", 'close', { duration : 1000 }), this.get(), this.ngAfterViewInit()}
-                      });
+      const token = localStorage.getItem('token');
+      const tokenPayload = decode(token);
 
-
-                  } else {
-                      this.snakcBar.open("You cancel the Delete.", 'close', { duration : 1000 })
-                  }
-              }
+      if(tokenPayload.id_akun == index)
+          this.snakcBar.open("You cannot delete your own Account as Super Admin.", 'close', { duration : 1000 })
+      else{
+          // RESTful API DeleteUser
+          const dialogRef = this.dialog.open(KonfirmasiComponent, dialogConfig);
+              dialogRef.afterClosed().subscribe(
+              data =>
+                {
+                      if(data == undefined){
+                          this.snakcBar.open("You cancel the Delete.", 'close', { duration : 1000 })
+                      } else {
+                        if(data == true) {
+                            this.registerService.deleteUser(dialogConfig.data).subscribe({
+                              error : err =>  {
+                                if(err instanceof HttpErrorResponse){
+                                  if(err.status === 401)
+                                    this._router.navigate(['/super-admin/beranda'])
+                                }
+                                this.snakcBar.open("Data Changed!", 'close', { duration : 1000 }), this.get(), this.ngAfterViewInit()
+                              }
+                            });
+                        } else {
+                            this.snakcBar.open("You cancel the Delete.", 'close', { duration : 1000 })
+                        }
+                    }
+                }
+            );
           }
-      );
     }
 
     // RESTful API GetData
     get(){
-      this.httpClient.get(`http://localhost:3000/secureAPI/alluser`)
+      this.registerService.getAllUser()
       .subscribe(
           (data:any[]) => {
            this.dataSource.data = data;

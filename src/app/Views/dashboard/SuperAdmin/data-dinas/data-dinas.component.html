@@ -1,3 +1,94 @@
-<p>
-  data-dinas works!
-</p>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-5">
+        <h4 class="card-title mb-0">Data Dinas</h4>
+        <div class="small text-muted">Only can be accessed by Super Admin</div>
+      </div>
+      <!--/.col-->
+      <div class="col-sm-7 d-none d-md-block">
+        <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+          <button mat-button (click)="createNew()">Tambah Dinas</button>
+          <button mat-button (click)="exportAction()">Export to PDF</button>
+          <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+        </div>
+      </div>
+      <!--/.col-->
+    </div>
+    <!--/.row-->
+    <div class="container-table">
+    <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+  </mat-form-field>
+    <mat-table [dataSource]="dataSource" matSort>
+      <!-- ID Column -->
+      <ng-container matColumnDef="id_dinas" >
+        <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >ID</mat-header-cell>
+        <mat-cell class="hui" *matCellDef="let row"> {{row.id_dinas}} </mat-cell>
+      </ng-container>
+      <!-- Progress Column -->
+      <ng-container matColumnDef="nama_dinas">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nama Dinas </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.nama_dinas}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="alamat_kantor">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Alamat Kantor </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.alamat_kantor}} </mat-cell>
+      </ng-container>
+
+      <!-- Color Column -->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+        <mat-cell *matCellDef="let row" > {{row.email}} </mat-cell>
+      </ng-container>
+
+      <!-- Password Column -->
+      <ng-container matColumnDef="telp_fax">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Telp. Fax </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.telp_fax}} </mat-cell>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="gambar">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Tautan Gambar </mat-header-cell>
+        <mat-cell *matCellDef="let row" > {{row.gambar}} </mat-cell>
+      </ng-container>
+
+
+      <!-- Aksi Column -->
+      <ng-container matColumnDef="aksi">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>&emsp;&emsp;&emsp;&emsp;Aksi </mat-header-cell>
+        <mat-cell *matCellDef="let row" >
+          <div class="container-flex">
+          <button class="hue hui" mat-button (click)="edit(row.id_dinas,row.nama_dinas,row.alamat_kantor,row.email,row.telp_fax,row.gambar)">Edit</button>
+        </div>
+        </mat-cell>
+      </ng-container>
+
+            <!-- Aksi(null) Column -->
+            <ng-container matColumnDef="null">
+              <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+              <mat-cell *matCellDef="let row" >
+                <div class="container-flex">
+                <button class="hue" mat-button (click)="delete(row.id_dinas)">Delete</button>
+              </div>
+              </mat-cell>
+            </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+  </div>
+
+
+  </div>
+
+  <div class="container-paginator">
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+
+</div>

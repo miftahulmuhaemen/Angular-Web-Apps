@@ -3,10 +3,11 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './views/register/register.component';
+//import { RegisterComponent } from './views/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClientJsonpModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaterialModule } from './material.module';
+import {  FileSelectDirective, FileDropDirective } from 'ng2-file-upload'
 
 //Services
 import { ExcelServiceService } from './services/excel-service.service';
@@ -44,11 +45,20 @@ import { PendidikSaComponent } from './views/dashboard/superadmin/pendidik-sa/pe
 import { KependidikanSaComponent } from './views/dashboard/superadmin/kependidikan-sa/kependidikan-sa.component';
 import { PesertaDidikSaComponent } from './views/dashboard/superadmin/peserta-didik-sa/peserta-didik-sa.component';
 import { PengaturanSaComponent } from './views/dashboard/superadmin/pengaturan-sa/pengaturan-sa.component';
+import { EditDataDinasComponent } from './views/dashboard/modals/edit-data-dinas/edit-data-dinas.component';
+import { EditPegawaiPenilikComponent } from './views/dashboard/modals/edit-pegawai-penilik/edit-pegawai-penilik.component';
+import { EditPotensiComponent } from './views/dashboard/modals/edit-potensi/edit-potensi.component';
+import { EditPaudComponent } from './views/dashboard/modals/edit-paud/edit-paud.component';
+import { EditLkpComponent } from './views/dashboard/modals/edit-lkp/edit-lkp.component';
+import { TambahProgramLkpComponent } from './views/dashboard/modals/tambah-program-lkp/tambah-program-lkp.component';
+import { EditPkbmComponent } from './views/dashboard/modals/edit-pkbm/edit-pkbm.component';
+import { EditPendidikComponent } from './views/dashboard/modals/edit-pendidik/edit-pendidik.component';
+import { EditKependidikanComponent } from './views/dashboard/modals/edit-kependidikan/edit-kependidikan.component';
+import { EditPesertaDidikComponent } from './views/dashboard/modals/edit-peserta-didik/edit-peserta-didik.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
     LoginComponent,
     DashboardComponent,
     BerandaComponent,
@@ -77,6 +87,17 @@ import { PengaturanSaComponent } from './views/dashboard/superadmin/pengaturan-s
     KependidikanSaComponent,
     PesertaDidikSaComponent,
     PengaturanSaComponent,
+    EditDataDinasComponent,
+    EditPegawaiPenilikComponent,
+    EditPotensiComponent,
+    EditPaudComponent,
+    EditLkpComponent,
+    TambahProgramLkpComponent,
+    EditPkbmComponent,
+    EditPendidikComponent,
+    EditKependidikanComponent,
+    EditPesertaDidikComponent,
+    FileSelectDirective,
   ],
   imports: [
     BrowserModule,
@@ -86,7 +107,7 @@ import { PengaturanSaComponent } from './views/dashboard/superadmin/pengaturan-s
     ReactiveFormsModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    MaterialModule
+    MaterialModule,
   ],
   providers: [RegisterService, ExcelServiceService, RoleGuardServiceService, AuthGuard, {
     provide : HTTP_INTERCEPTORS,
@@ -94,6 +115,6 @@ import { PengaturanSaComponent } from './views/dashboard/superadmin/pengaturan-s
     multi : true
   }],
   bootstrap: [AppComponent],
-  entryComponents: [EditProfilDinasComponent,KonfirmasiComponent,EditManajemenAkunComponent]
+  entryComponents: [EditProfilDinasComponent,KonfirmasiComponent,EditManajemenAkunComponent,EditDataDinasComponent,EditKependidikanComponent,EditLkpComponent,EditPaudComponent,EditPegawaiPenilikComponent,EditPendidikComponent,EditPesertaDidikComponent,EditPkbmComponent,EditPotensiComponent,TambahProgramLkpComponent]
 })
 export class AppModule { }
