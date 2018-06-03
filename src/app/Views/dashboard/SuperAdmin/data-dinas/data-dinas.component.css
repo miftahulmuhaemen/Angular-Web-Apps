@@ -29,7 +29,7 @@
 }
 
 .hue{
-  min-width: 20%;
+  min-width: 14%;
 }
 
 .container-flex{
@@ -53,6 +53,11 @@
 
 
 .mat-cell:nth-child(8), .mat-header-cell:nth-child(8) {
+  flex:  0 0 auto;
+  width: 70px;
+}
+
+.mat-cell:nth-child(9), .mat-header-cell:nth-child(9) {
   flex:  0 0 auto;
   width: 70px;
 }

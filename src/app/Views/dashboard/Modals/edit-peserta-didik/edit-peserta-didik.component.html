@@ -1,3 +1,56 @@
-<p>
-  edit-peserta-didik works!
-</p>
+
+<h2 mat-dialog-title>{{description}}</h2>
+
+<mat-dialog-content [formGroup]="form">
+    <div class="container-fluid">
+
+
+                <mat-form-field><input matInput placeholder="Nomor Induk" formControlName="id_peserta_didik"></mat-form-field>
+                <mat-form-field><input matInput placeholder="Nama" formControlName="nama"></mat-form-field>
+                <mat-form-field><input matInput placeholder="Tempat Lahir" formControlName="tempat_lahir"></mat-form-field>
+
+                <mat-form-field>
+                <input matInput formControlName="tanggal_lahir" [matDatepicker]="picker3" placeholder="Tanggal Lahir" >
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+                </mat-form-field>
+
+                <mat-radio-group formControlName="jenis_kelamin">
+                  <mat-radio-button value="Laki-Laki">Laki-Laki</mat-radio-button>
+                  <mat-radio-button value="Perempuan">Perempuan</mat-radio-button>
+                </mat-radio-group>
+
+                <mat-form-field >
+                  <mat-select formControlName="id_lembaga" placeholder="Lembaga Tempat Bertugas" (change)="onChange()">
+                    <mat-option *ngFor="let x of lembaga" [value]="x.id_lembaga">
+                      {{ x.nama_lembaga }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field><input matInput placeholder="Alamat" formControlName="alamat"></mat-form-field>
+
+                <mat-form-field *ngIf="!verified">
+                <mat-select formControlName="kesetaraan" placeholder="Kesetaraan" [disabled]="verified">
+                    <mat-option value="Paket A">Paket A</mat-option>
+                    <mat-option value="Paket B">Paket B</mat-option>
+                    <mat-option value="Paket C">Paket C</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field  *ngIf="!verified">
+                  <mat-select formControlName="status_keaksaraan" placeholder="Status Keaksaraan" [disabled]="verified">
+                    <mat-option value="Buta Aksara">Buta Aksara</mat-option>
+                    <mat-option value="Tidak">Tidak</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+    </div>
+</mat-dialog-content>
+
+<div class="container-flex">
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()" [disabled]="!form.valid">Save</button>
+</mat-dialog-actions>
+</div>

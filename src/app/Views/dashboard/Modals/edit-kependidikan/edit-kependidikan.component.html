@@ -1,3 +1,82 @@
-<p>
-  edit-kependidikan works!
-</p>
+
+<h2 mat-dialog-title>{{description}}</h2>
+
+<mat-dialog-content [formGroup]="form">
+    <div class="container-fluid">
+
+
+                <mat-form-field><input matInput placeholder="NIP/NUPTK" formControlName="id_kependidikan"></mat-form-field>
+                <mat-form-field><input matInput placeholder="Nama" formControlName="nama"></mat-form-field>
+                <mat-form-field><input matInput placeholder="Tempat Lahir" formControlName="tempat_lahir"></mat-form-field>
+
+                <mat-form-field>
+                <input matInput formControlName="tanggal_lahir" [matDatepicker]="picker3" placeholder="Tanggal Lahir" >
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+                </mat-form-field>
+
+                <span class="small text-muted"> Jenis Kelamin </span>
+                <mat-radio-group formControlName="jenis_kelamin">
+                  <mat-radio-button value="Laki-Laki">Laki-Laki</mat-radio-button>
+                  <mat-radio-button value="Perempuan">Perempuan</mat-radio-button>
+                </mat-radio-group>
+
+                <mat-form-field >
+                  <mat-select formControlName="id_lembaga" placeholder="Lembaga Tempat Bertugas" >
+                    <mat-option *ngFor="let x of lembaga" [value]="x.id_lembaga">
+                      {{ x.nama_lembaga }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="pangkat_golongan" placeholder="Pangkat/Golongan" required>
+                    <mat-option value="Juru Muda-I/a">Juru Muda-I/a</mat-option>
+                    <mat-option value="Juru Muda TK I-I/b">Juru Muda TK I-I/b</mat-option>
+                    <mat-option value="Juru-I/c">Juru-I/c</mat-option>
+                    <mat-option value="Juru TK I-I/d">Juru TK I-I/d</mat-option>
+                    <mat-option value="Pengatur Muda-II/a">Pengatur Muda-II/a</mat-option>
+                    <mat-option value="Pengatur Muda TK I-II/b">Pengatur Muda TK I-II/b</mat-option>
+                    <mat-option value="Pengatur-II/c">Pengatur-II/c</mat-option>
+                    <mat-option value="Pengatur TK I-II/d">Pengatur TK I-II/d</mat-option>
+                    <mat-option value="Penata Muda-III/a">Penata Muda-III/a</mat-option>
+                    <mat-option value="Penata Muda TK I-III/b">Penata Muda TK I-III/b</mat-option>
+                    <mat-option value="Penata-III/c">Penata-III/c</mat-option>
+                    <mat-option value="Penata TK I-III/d">Penata TK I-III/d</mat-option>
+                    <mat-option value="Pembina-IV/a">Pembina-IV/a</mat-option>
+                    <mat-option value="Pembina TK I-IV/b">Pembina TK I-IV/b</mat-option>
+                    <mat-option value="Pembina Utama Muda-IV/c">Pembina Utama Muda-IV/c</mat-option>
+                    <mat-option value="Pembina Utama Madya-IV/d">Pembina Utama Madya-IV/d</mat-option>
+                    <mat-option value="Pembina Utama-IV/e">Pembina Utama-IV/e</mat-option>
+                    <mat-option value="Belum Berpangkat">Belum Berpangkat</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field><input matInput placeholder="Alamat" formControlName="alamat"></mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="pendidikan_terakhir" placeholder="Pendidikan Terakhir" required>
+                    <mat-option value="SD">SD</mat-option>
+                    <mat-option value="SMP">SMP</mat-option>
+                    <mat-option value="SMA">SMA</mat-option>
+                    <mat-option value="D1">D1</mat-option>
+                    <mat-option value="D2">D2</mat-option>
+                    <mat-option value="D3">D3</mat-option>
+                    <mat-option value="D4">D4</mat-option>
+                    <mat-option value="S1">S1</mat-option>
+                    <mat-option value="S2">S2</mat-option>
+                    <mat-option value="S3">S3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field><input matInput placeholder="Tahun Lulus" formControlName="tahun_lulus"></mat-form-field>
+
+
+    </div>
+</mat-dialog-content>
+
+<div class="container-flex">
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()" [disabled]="!form.valid">Save</button>
+</mat-dialog-actions>
+</div>

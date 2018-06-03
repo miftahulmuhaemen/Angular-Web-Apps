@@ -1,3 +1,19 @@
-<p>
-  beranda-sa works!
-</p>
+<div class="card">
+
+    <div class="card-body">
+      <div style="height: 200px; ">
+        <ngx-charts-bar-horizontal
+            [scheme]="colorScheme"
+            [results]="single"
+            [gradient]="true"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)">
+          </ngx-charts-bar-horizontal>
+</div>
+    </div>
+
+</div>

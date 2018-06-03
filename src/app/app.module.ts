@@ -7,14 +7,16 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClientJsonpModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaterialModule } from './material.module';
-import {  FileSelectDirective, FileDropDirective } from 'ng2-file-upload'
-
+import { MatDatepickerModule, NativeDateModule } from '@angular/material'
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload'
+import { NgxChartsModule } from "@swimlane/ngx-charts";
 //Services
 import { ExcelServiceService } from './services/excel-service.service';
 import { RegisterService } from './services/register.service';
 import { AuthGuard } from './auth.guard'
 import { TokenInterceptorService } from './services/token-interceptor.service'
 import { RoleGuardServiceService } from './services/role-guard-service.service'
+import { DataServiceService } from './services/data-service.service'
 
 //Components
 import { LoginComponent } from './views/login/login.component';
@@ -55,6 +57,11 @@ import { EditPkbmComponent } from './views/dashboard/modals/edit-pkbm/edit-pkbm.
 import { EditPendidikComponent } from './views/dashboard/modals/edit-pendidik/edit-pendidik.component';
 import { EditKependidikanComponent } from './views/dashboard/modals/edit-kependidikan/edit-kependidikan.component';
 import { EditPesertaDidikComponent } from './views/dashboard/modals/edit-peserta-didik/edit-peserta-didik.component';
+import { DetilDinasComponent } from './views/dashboard/superadmin/data-dinas/detil-dinas/detil-dinas.component';
+import { PaudDetilComponent } from './views/dashboard/superadmin/lembaga-paud-sa/paud-detil/paud-detil.component';
+import { LkpDetilComponent } from './views/dashboard/superadmin/lembaga-lkp-sa/lkp-detil/lkp-detil.component';
+import { ProgramLkpComponent } from './views/dashboard/superadmin/lembaga-lkp-sa/program-lkp/program-lkp.component';
+import { ProgramLkpEditComponent } from './views/dashboard/modals/program-lkp-edit/program-lkp-edit.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +105,11 @@ import { EditPesertaDidikComponent } from './views/dashboard/modals/edit-peserta
     EditKependidikanComponent,
     EditPesertaDidikComponent,
     FileSelectDirective,
+    DetilDinasComponent,
+    PaudDetilComponent,
+    LkpDetilComponent,
+    ProgramLkpComponent,
+    ProgramLkpEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,13 +120,16 @@ import { EditPesertaDidikComponent } from './views/dashboard/modals/edit-peserta
     HttpClientModule,
     HttpClientJsonpModule,
     MaterialModule,
+    MatDatepickerModule,
+    NativeDateModule,
+    NgxChartsModule
   ],
-  providers: [RegisterService, ExcelServiceService, RoleGuardServiceService, AuthGuard, {
+  providers: [RegisterService, DataServiceService, ExcelServiceService, RoleGuardServiceService, AuthGuard, {
     provide : HTTP_INTERCEPTORS,
     useClass : TokenInterceptorService,
     multi : true
   }],
   bootstrap: [AppComponent],
-  entryComponents: [EditProfilDinasComponent,KonfirmasiComponent,EditManajemenAkunComponent,EditDataDinasComponent,EditKependidikanComponent,EditLkpComponent,EditPaudComponent,EditPegawaiPenilikComponent,EditPendidikComponent,EditPesertaDidikComponent,EditPkbmComponent,EditPotensiComponent,TambahProgramLkpComponent]
+  entryComponents: [EditProfilDinasComponent,KonfirmasiComponent,ProgramLkpEditComponent,EditManajemenAkunComponent,EditDataDinasComponent,EditKependidikanComponent,EditLkpComponent,EditPaudComponent,EditPegawaiPenilikComponent,EditPendidikComponent,EditPesertaDidikComponent,EditPkbmComponent,EditPotensiComponent,TambahProgramLkpComponent]
 })
 export class AppModule { }

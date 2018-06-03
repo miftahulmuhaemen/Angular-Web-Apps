@@ -29,7 +29,7 @@
   padding-top: 5px;
   padding-bottom: 5px;
   min-width: 100%;
-  text-align: right;
+  text-align: left;
 }
 
 .logo{
@@ -46,10 +46,25 @@
 }
 
 .example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
 }
 
 .sidebar-toggler{
   margin-left: 5px;
+}
+
+.navbar{
+background: #AAFFA9;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to left,#09f2b1, #11FFBD, );  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #09f2b1, #11FFBD); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.mat-fab, .mat-mini-fab, .mat-raised-button {
+background: #2f353a;  /* fallback for old browsers */
+color: #fff;
+ }
+ 
+.drawer {
+  background: #2f353a;  /* fallback for old browsers */
+  color: #fff;
 }

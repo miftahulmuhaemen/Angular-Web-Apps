@@ -1,3 +1,148 @@
-<p>
-  lembaga-lkp-sa works!
-</p>
+<div class="card">
+
+  <!-- Potensi Dinas -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-5">
+                  <h4 class="card-title mb-0">Lembaga LKP</h4>
+                  <div class="small text-muted">Only can be accessed by Super Admin</div>
+                </div>
+                <!--/.col-->
+                <div class="col-sm-7 d-none d-md-block">
+                  <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                    <button mat-button  routerLink="/super-admin/program-lkp">Program LKP</button>
+                    <button *ngIf="!validity" mat-button (click)="tambahLembaga()">Tambah Lembaga</button>
+                    <button mat-button (click)="exportAction()">Export to PDF</button>
+                    <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+                  </div>
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.row-->
+              <div class="container-table">
+              <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+            </mat-form-field>
+              <mat-table [dataSource]="dataSourcePotensi" matSort #table2="matSort">
+
+
+
+
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="id_lembaga" >
+                  <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >ID</mat-header-cell>
+                  <mat-cell class="hui" *matCellDef="let row"> {{row.id_lembaga}} </mat-cell>
+                </ng-container>
+                <!-- Progress Column -->
+                <ng-container matColumnDef="nama_dinas">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Nama Dinas</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.nama_dinas}} </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="nama_lembaga">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Nama Lembaga</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.nama_lembaga}} </mat-cell>
+                </ng-container>
+
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="jenis_lembaga" >
+                  <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >Jenis Lembaga</mat-header-cell>
+                  <mat-cell class="hui" *matCellDef="let row"> {{row.jenis_lembaga}} </mat-cell>
+                </ng-container>
+                <!-- Progress Column -->
+                <ng-container matColumnDef="nama_program">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Nama Program</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.nama_program}} </mat-cell>
+                </ng-container>
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="akreditasi" >
+                  <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >Akreditasi</mat-header-cell>
+                  <mat-cell class="hui" *matCellDef="let row"> {{row.akreditasi}} </mat-cell>
+                </ng-container>
+                <!-- Progress Column -->
+                <ng-container matColumnDef="alamat_lembaga">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Alamat Lembaga</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.alamat_lembaga}} </mat-cell>
+                </ng-container>
+
+
+
+<!-- Name Column -->
+<ng-container matColumnDef="kode_pos">
+<mat-header-cell *matHeaderCellDef mat-sort-header>Kode Pos</mat-header-cell>
+<mat-cell *matCellDef="let row"> {{row.kode_pos}} </mat-cell>
+</ng-container>
+
+<!-- Name Column -->
+<ng-container matColumnDef="no_telp">
+<mat-header-cell *matHeaderCellDef mat-sort-header>No. Telp</mat-header-cell>
+<mat-cell *matCellDef="let row"> {{row.no_telp}} </mat-cell>
+</ng-container>
+
+<!-- Name Column -->
+<ng-container matColumnDef="tahun_berdiri">
+<mat-header-cell *matHeaderCellDef mat-sort-header>Tahun Berdiri</mat-header-cell>
+<mat-cell *matCellDef="let row"> {{row.tahun_berdiri}} </mat-cell>
+</ng-container>
+
+<!-- Name Column -->
+<ng-container matColumnDef="kondisi_bangunan">
+<mat-header-cell *matHeaderCellDef mat-sort-header>Kondisi Bangunan</mat-header-cell>
+<mat-cell *matCellDef="let row"> {{row.kondisi_bangunan}} </mat-cell>
+</ng-container>
+
+
+<!-- Name Column -->
+<ng-container matColumnDef="kepemilikan">
+<mat-header-cell *matHeaderCellDef mat-sort-header>Kepemilikan</mat-header-cell>
+<mat-cell *matCellDef="let row"> {{row.kepemilikan}} </mat-cell>
+</ng-container>
+
+
+          <ng-container matColumnDef="edit">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+                  <mat-cell *matCellDef="let row" >
+                    <div class="container-flex">
+                    <button class="hue hui" mat-button (click)="editLKP(row.id_dinas,row.id_lembaga,row.nama_dinas,row.nama_lembaga,row.jenis_lembaga,row.nama_program,row.kurikulum,row.akreditasi,row.alamat_lembaga,row.kode_pos,row.no_telp,row.tahun_berdiri,row.kondisi_bangunan,row.kepemilikan)">⎆</button>
+                  </div>
+                  </mat-cell>
+                </ng-container>
+
+                      <!-- Aksi(null) Column -->
+                      <ng-container matColumnDef="delete">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+                        <mat-cell *matCellDef="let row" >
+                          <div class="container-flex">
+                          <button class="hue" mat-button (click)="deleteLKP(row.id_lembaga)">✖</button>
+                        </div>
+                        </mat-cell>
+                      </ng-container>
+
+
+                                            <!-- Aksi(null) Column -->
+                                            <ng-container matColumnDef="detil">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Detil</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" >
+                                                <div class="container-flex">
+                                                <button class="hue" mat-button (click)="detil(row.id_lembaga)">✖</button>
+                                              </div>
+                                              </mat-cell>
+                                            </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsPotensi"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsPotensi;">
+                </mat-row>
+              </mat-table>
+            </div>
+
+
+            </div>
+            <div class="container-paginator">
+                <mat-paginator #paginatorPotensiDinas [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+
+</div>

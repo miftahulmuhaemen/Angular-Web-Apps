@@ -35,20 +35,12 @@ export class LoginComponent implements OnInit {
     OnSubmit(form : NgForm){
 
       if(form.valid){
-
-        console.log(form.value)
-
         this.registerService.loginAdmin(form.value)
         .subscribe((data:any)=>{
-          console.log(data)
-          try {  this.snakcBar.open("Login Success!", 'close', { duration : 1000 });
-                  localStorage.setItem('token', data.token);
-                  const tokenPayload = decode(data.token);
-
-                  if(tokenPayload.role == 'Super Admin')
-                        this._router.navigate(['/super-admin/beranda'])
-                  else
-                        this._router.navigate(['/beranda'])
+          try {
+                    localStorage.setItem('token',data.token)
+                    this._router.navigate(['/super-admin/beranda'])
+                    this.snakcBar.open('Selamat Datang!', 'close', { duration : 1000 })
                   }
           catch (err) {
                   this.snakcBar.open('' + err, 'close', { duration : 1000 })

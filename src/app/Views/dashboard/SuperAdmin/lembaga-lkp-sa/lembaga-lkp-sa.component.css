@@ -1,0 +1,48 @@
+
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.container-table {
+  padding: 20px;
+}
+
+.container-paginator{
+  margin-bottom: 10px;
+  margin-right: 30px;
+}
+
+.hue{
+  min-width: 20%;
+}
+
+.header-grid{
+    border: 1px solid black;
+}
+
+
+.example-full-width {
+  width: 100%;
+}
+
+mat-header-row, mat-row {
+  width: 200%;
+}
+mat-cell {
+  margin-right: 10px;
+}
+
+.mat-dialog-content {
+  display : initial !important;
+}

@@ -1,39 +1,40 @@
 <mat-drawer-container  autosize>
-          <mat-drawer #drawer class="example-sidenav" mode="side" [(opened)]="opened">
+          <mat-drawer #drawer class="example-sidenav drawer" mode="side" [(opened)]="opened">
 
-                <h6 class="logo">BP-PAUD & DIKMAS KALSEL</h6>
+                <h6 class="logo" style="color:white;">BP-PAUD & DIKMAS KALSEL</h6>
 
-          <mat-accordion>
-            <div class="container-side-bar">
+          <mat-accordion class="drawer">
+            <div class="container-side-bar drawer">
 
-              <mat-card class="example-card">
+              <mat-card class="example-card drawer">
                 <mat-card-header>
-                  <div mat-card-avatar class="example-header-image"></div>
-                  <mat-card-title>Shiba Inu</mat-card-title>
-                  <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+                  <div mat-card-avatar class="example-header-image" id="demo"></div>
+                  <mat-card-title>{{this.name}}</mat-card-title>
+                  <mat-card-subtitle style="color: white;">{{this.role}}</mat-card-subtitle>
                 </mat-card-header>
               </mat-card>
 
 
                 <!-- Super Admin Only  -->
-                <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/beranda">Beranda</button>
+                <button mat-raised-button class="sung" routerLink="/super-admin/beranda">Beranda</button>
+                <!-- <button mat-raised-button *ngIf="!state" class="sung" routerLink="/beranda">Beranda</button> -->
                 <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/manajemen-akun">Manajemen Akun</button>
                 <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/data-dinas">Data Dinas</button>
-                <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/pegawai-dinas">Pegawai Dinas</button>
-                <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/potensi-daerah">Potensi Daerah</button>
-                <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/lembaga-paud">Lembaga PAUD</button>
-                <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/lembaga-lkp">Lembaga LKP</button>
-                <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/lembaga-pkbm">Lembaga PKBM</button>
-                <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/pendidik">Pendidik</button>
-                <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/kependidikan">Kependidikan</button>
-                <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/peserta-didik">Peserta Didik</button>
-                <button mat-raised-button *ngIf="state" class="sung" routerLink="/super-admin/pengaturan">Pengaturan</button>
-
+                <button mat-raised-button *ngIf="!state" class="sung" routerLink="/profil-dinas">Profil Dinas</button>
+                <button mat-raised-button class="sung" routerLink="/super-admin/pegawai-dinas">Pegawai Dinas</button>
+                <button mat-raised-button class="sung" routerLink="/super-admin/potensi-daerah">Potensi Daerah</button>
+                <button mat-raised-button class="sung" routerLink="/super-admin/lembaga-paud">Lembaga PAUD</button>
+                <button mat-raised-button class="sung" routerLink="/super-admin/lembaga-lkp">Lembaga LKP</button>
+                <button mat-raised-button class="sung" routerLink="/super-admin/lembaga-pkbm">Lembaga PKBM</button>
+                <button mat-raised-button class="sung" routerLink="/super-admin/pendidik">Pendidik</button>
+                <button mat-raised-button class="sung" routerLink="/super-admin/kependidikan">Kependidikan</button>
+                <button mat-raised-button class="sung" routerLink="/super-admin/peserta-didik">Peserta Didik</button>
+                <button mat-raised-button class="sung" routerLink="/super-admin/pengaturan">Pengaturan</button>
+                <!-- <button mat-raised-button *ngIf="!state" class="sung" routerLink="/peraturan">Pengaturan</button>  -->
 
                 <!-- Admin Only  -->
-                <button mat-raised-button *ngIf="!state" class="sung" routerLink="/beranda">Beranda</button>
-                <button mat-raised-button *ngIf="!state" class="sung" routerLink="/profil-dinas">Profil Dinas</button>
-                <button mat-raised-button *ngIf="!state" class="sung" routerLink="/pegawai-dinas">Pegawai Dinas</button>
+
+                <!-- <button mat-raised-button *ngIf="!state" class="sung" routerLink="/pegawai-dinas">Pegawai Dinas</button>
                 <button mat-raised-button *ngIf="!state" class="sung" routerLink="/potensi-daerah">Potensi Daerah</button>
                 <button mat-raised-button *ngIf="!state" class="sung" routerLink="/lembaga-paud">Lembaga PAUD</button>
                 <button mat-raised-button *ngIf="!state" class="sung" routerLink="/lembaga-lkp">Lembaga LKP</button>
@@ -41,7 +42,7 @@
                 <button mat-raised-button *ngIf="!state" class="sung" routerLink="/pendidik">Pendidik</button>
                 <button mat-raised-button *ngIf="!state" class="sung" routerLink="/kependidikan">Kependidikan</button>
                 <button mat-raised-button *ngIf="!state" class="sung" routerLink="/peserta-didik">Peserta Didik</button>
-                <button mat-raised-button *ngIf="!state" class="sung" routerLink="/peraturan">Pengaturan</button>
+                -->
 
             </div>
           </mat-accordion>

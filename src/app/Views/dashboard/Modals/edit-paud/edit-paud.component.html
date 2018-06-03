@@ -1,3 +1,73 @@
-<p>
-  edit-paud works!
-</p>
+
+
+
+
+
+<h2 mat-dialog-title>{{description}}</h2>
+
+<mat-dialog-content [formGroup]="form">
+    <div class="container-fluid">
+
+
+        <mat-form-field><input matInput placeholder="NPSN" formControlName="id_lembaga"></mat-form-field>
+        <mat-form-field><input matInput placeholder="Nama PAUD" formControlName="nama_lembaga"></mat-form-field>
+
+            <mat-form-field>
+              <mat-select placeholder="Nama Program" formControlName="nama_program" required>
+                <mat-option value="TK">TK</mat-option>
+                <mat-option value="KB">KB</mat-option>
+                <mat-option value="KB">SPS</mat-option>
+                <mat-option value="KB">TPA</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+<mat-form-field>
+<mat-select placeholder="Kurikulum" formControlName="kurikulum" required>
+<mat-option value="K13">K13</mat-option>
+<mat-option value="KTSP">KTSP</mat-option>
+</mat-select>
+</mat-form-field>
+
+<mat-form-field>
+<mat-select placeholder="Akreditasi" formControlName="akreditasi" required>
+<mat-option value="A">A</mat-option>
+<mat-option value="B">B</mat-option>
+<mat-option value="C">C</mat-option>
+<mat-option value="Belum Terakreditasi">Belum Terakreditasi</mat-option>
+</mat-select>
+</mat-form-field>
+
+<mat-form-field><input matInput placeholder="Alamat" formControlName="alamat_lembaga"></mat-form-field>
+<mat-form-field><input matInput placeholder="Kode Pos" formControlName="kode_pos"></mat-form-field>
+<mat-form-field><input matInput placeholder="No. Telp" formControlName="no_telepon"></mat-form-field>
+<mat-form-field><input matInput placeholder="Tahun Berdiri" formControlName="tahun_berdiri"></mat-form-field>
+
+
+<mat-form-field>
+<mat-select placeholder="Kondisi Bangunan" formControlName="kondisi_bangunan" required>
+<mat-option value="Baik">Baik</mat-option>
+<mat-option value="Rusak Ringan">Rusak Ringan</mat-option>
+<mat-option value="Rusak Sedang">Rusak Sedang</mat-option>
+<mat-option value="Rusak Berat">Rusak Berat</mat-option>
+</mat-select>
+</mat-form-field>
+
+<mat-form-field>
+<mat-select placeholder="Kepemilikan Bangunan" formControlName="kepemilikan" required>
+<mat-option value="Milik Sendiri">Milik Sendiri</mat-option>
+<mat-option value="Pinjam">Pinjam</mat-option>
+</mat-select>
+</mat-form-field>
+
+
+
+
+    </div>
+</mat-dialog-content>
+
+<div class="container-flex">
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()" [disabled]="!form.valid" >Save</button>
+</mat-dialog-actions>
+</div>

@@ -1,3 +1,208 @@
-<p>
-  pegawai-dinas-sa works!
-</p>
+<div class="card">
+  <!-- Pegawai -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-5">
+                  <h4 class="card-title mb-0">Pegawai</h4>
+                  <div class="small text-muted">Only can be accessed by Super Admin</div>
+                </div>
+                <!--/.col-->
+                <div class="col-sm-7 d-none d-md-block">
+                  <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                    <button mat-button *ngIf="!validity" (click)="tambahPegawai('Pegawai')">Tambah Pegawai</button>
+                    <button mat-button (click)="exportAction()">Export to PDF</button>
+                    <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+                  </div>
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.row-->
+              <div class="container-table">
+              <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+            </mat-form-field>
+              <mat-table [dataSource]="dataSourcePegawai" matSort #table1="matSort">
+                <!-- ID Column -->
+                <ng-container matColumnDef="nip" >
+                  <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >NIP</mat-header-cell>
+                  <mat-cell class="hui" *matCellDef="let row"> {{row.nip}} </mat-cell>
+                </ng-container>
+                  <!-- ID Column -->
+                  <ng-container matColumnDef="nama_dinas" >
+                    <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >Nama Dinas</mat-header-cell>
+                    <mat-cell class="hui" *matCellDef="let row"> {{row.nama_dinas}} </mat-cell>
+                  </ng-container>
+                <!-- Progress Column -->
+                <ng-container matColumnDef="nama">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Nama</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.nama}} </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="tanggal_lahir">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Tanggal Lahir</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.tanggal_lahir}} </mat-cell>
+                </ng-container>
+
+                <!-- Color Column -->
+                <ng-container matColumnDef="jenis_kelamin">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Jenis Kelamin</mat-header-cell>
+                  <mat-cell *matCellDef="let row" > {{row.jenis_kelamin}} </mat-cell>
+                </ng-container>
+
+                <!-- Password Column -->
+                <ng-container matColumnDef="pangkat_golongan">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Pangkat Golongan</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.pangkat_golongan}} </mat-cell>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="no_hp">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> No. Telpon </mat-header-cell>
+                  <mat-cell *matCellDef="let row" > {{row.no_hp}} </mat-cell>
+                </ng-container>
+
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="jabatan">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Jabatan </mat-header-cell>
+                <mat-cell *matCellDef="let row" > {{row.jabatan}} </mat-cell>
+                </ng-container>
+
+                <!-- Aksi Column -->
+                <ng-container matColumnDef="edit">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+                  <mat-cell *matCellDef="let row" >
+                    <div class="container-flex">
+                    <button class="hue hui" mat-button (click)="editPegawaiDetil(row.id_dinas,row.nama_dinas,row.nip,row.nama,row.tanggal_lahir,row.jenis_kelamin,row.pangkat_golongan,row.no_hp,row.jabatan,'Pegawai')">⎆</button>
+                  </div>
+                  </mat-cell>
+                </ng-container>
+
+                      <!-- Aksi(null) Column -->
+                      <ng-container matColumnDef="delete">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+                        <mat-cell *matCellDef="let row" >
+                          <div class="container-flex">
+                          <button class="hue" mat-button (click)="deletePegawaiDetil(row.nip)">✖</button>
+                        </div>
+                        </mat-cell>
+                      </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsPegawai"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsPegawai;">
+                </mat-row>
+              </mat-table>
+            </div>
+            </div>
+            <div class="container-paginator">
+                <mat-paginator #paginatorPegawai [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+
+
+              <mat-divider></mat-divider>
+
+                      <!-- Pegawai -->
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-sm-5">
+                                      <h4 class="card-title mb-0">Penilik/Pamong</h4>
+                                      <div class="small text-muted">Only can be accessed by Super Admin</div>
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-sm-7 d-none d-md-block">
+                                      <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                                        <button mat-button *ngIf="!validity" (click)="tambahPegawai('Penilik')">Tambah Penilik/Pamong</button>
+                                        <button mat-button (click)="exportAction()">Export to PDF</button>
+                                        <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+                                      </div>
+                                    </div>
+                                    <!--/.col-->
+                                  </div>
+                                  <!--/.row-->
+                                  <div class="container-table">
+                                  <mat-form-field>
+                                  <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+                                </mat-form-field>
+                                  <mat-table [dataSource]="dataSourcePenilik" matSort #table3="matSort">
+                                    <!-- ID Column -->
+                                    <ng-container matColumnDef="nip" >
+                                      <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >NIP</mat-header-cell>
+                                      <mat-cell class="hui" *matCellDef="let row"> {{row.nip}} </mat-cell>
+                                      </ng-container>
+                                        <!-- Inama_dinas asu Column -->
+                                        <ng-container matColumnDef="nama_dinas" >
+                                          <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >Nama Dinas</mat-header-cell>
+                                          <mat-cell class="hui" *matCellDef="let row"> {{row.nama_dinas}} </mat-cell>
+                                        </ng-container>
+
+                                    <!-- Progress Column -->
+                                    <ng-container matColumnDef="nama">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header>Nama</mat-header-cell>
+                                      <mat-cell *matCellDef="let row"> {{row.nama}} </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Name Column -->
+                                    <ng-container matColumnDef="tanggal_lahir">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header>Tanggal Lahir</mat-header-cell>
+                                      <mat-cell *matCellDef="let row"> {{row.tanggal_lahir}} </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Color Column -->
+                                    <ng-container matColumnDef="jenis_kelamin">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header>Jenis Kelamin</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" > {{row.jenis_kelamin}} </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Password Column -->
+                                    <ng-container matColumnDef="pangkat_golongan">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header>Pangkat Golongan</mat-header-cell>
+                                      <mat-cell *matCellDef="let row"> {{row.pangkat_golongan}} </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Status Column -->
+                                    <ng-container matColumnDef="no_hp">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header> No. Telpon </mat-header-cell>
+                                      <mat-cell *matCellDef="let row" > {{row.no_hp}} </mat-cell>
+                                    </ng-container>
+
+
+                                    <!-- Status Column -->
+                                    <ng-container matColumnDef="jabatan">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Jabatan </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" > {{row.jabatan}} </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Aksi Column -->
+                                    <ng-container matColumnDef="edit">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" >
+                                        <div class="container-flex">
+                                        <button class="hue hui" mat-button (click)="editPegawaiDetil(row.id_dinas,row.nama_dinas,row.nip,row.nama,row.tanggal_lahir,row.jenis_kelamin,row.pangkat_golongan,row.no_hp,row.jabatan, 'Penilik')">⎆</button>
+                                      </div>
+                                      </mat-cell>
+                                    </ng-container>
+
+                                          <!-- Aksi(null) Column -->
+                                          <ng-container matColumnDef="delete">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" >
+                                              <div class="container-flex">
+                                              <button class="hue" mat-button (click)="deletePegawaiDetil(row.nip)">✖</button>
+                                            </div>
+                                            </mat-cell>
+                                          </ng-container>
+
+
+                                    <mat-header-row *matHeaderRowDef="displayedColumnsPenilik"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: displayedColumnsPenilik;">
+                                    </mat-row>
+                                  </mat-table>
+                                </div>
+                                </div>
+                                <div class="container-paginator">
+                                    <mat-paginator #paginatorPenilik [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                </div>
+
+</div>

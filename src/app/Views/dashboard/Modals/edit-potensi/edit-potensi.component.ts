@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { FormControl, FormGroup, FormBuilder, Validators, NgForm, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-potensi',
@@ -7,9 +9,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditPotensiComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+  description:string;
+  dinas = [];
+
+  constructor(private fb: FormBuilder,
+        private dialogRef: MatDialogRef<EditPotensiComponent>,
+        @Inject(MAT_DIALOG_DATA) data) {
+
+          this.description = data.description;
+          this.form = this.fb.group({
+                nama_potensi : [data.nama_potensi,Validators.required],
+                jenis_potensi : [data.jenis_potensi,Validators.required],
+             });
+
+        }
 
   ngOnInit() {
+  }
+
+  save() {
+      this.dialogRef.close(this.form.value);
+  }
+
+  close() {
+      this.dialogRef.close();
   }
 
 }

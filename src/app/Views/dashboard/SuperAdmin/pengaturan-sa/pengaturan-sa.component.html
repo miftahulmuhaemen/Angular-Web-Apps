@@ -1,3 +1,20 @@
-<p>
-  pengaturan-sa works!
-</p>
+<mat-card class="example-card">
+  <mat-dialog-content [formGroup]="form">
+  <mat-card-header>
+    <mat-card-title>Pengaturan</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="container-fluid">
+                <mat-form-field hidden><input  matInput placeholder="Nama Admin/Superadmin" formControlName="nama_admin"></mat-form-field>
+                <mat-form-field><input matInput placeholder="Nama Admin/SuperAdmin" formControlName="nama_admin"></mat-form-field>
+                <mat-form-field><input matInput placeholder="Username" formControlName="username"></mat-form-field>
+                <mat-form-field><input matInput placeholder="Password" formControlName="password"></mat-form-field>
+    </div>
+  </mat-card-content></mat-dialog-content>
+      <div class="container-flex">
+      <mat-dialog-actions>
+      <button class="mat-raised-button mat-primary"(click)="save()" [disabled]="!form.valid">Simpan</button>
+          <button class="mat-raised-button" (click)="close()">Batal</button>
+      </mat-dialog-actions>
+      </div>
+</mat-card>

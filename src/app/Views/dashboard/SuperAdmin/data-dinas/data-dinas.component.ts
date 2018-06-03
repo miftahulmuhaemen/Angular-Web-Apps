@@ -12,6 +12,7 @@ import { CdkTableModule  } from '@angular/cdk/table';
 //Services
 import { RegisterService } from '../../../../services/register.service';
 import { ExcelServiceService } from '../../../../services/excel-service.service'
+import { DataServiceService } from '../../../../services/data-service.service'
 
 //Component Modal
 import { EditDataDinasComponent } from '../../modals/edit-data-dinas/edit-data-dinas.component'
@@ -29,7 +30,7 @@ import 'jspdf-autotable';
 export class DataDinasComponent implements OnInit {
 
     //displayedColumns = ['ID','nama_dinas','username','nama_admin','password','status_akun','aksi','null'];
-    displayedColumns = ['id_dinas','nama_dinas','alamat_kantor','email','telp_fax','gambar','aksi','null'];
+  displayedColumns = ['id_dinas','nama_dinas','alamat_kantor','email','telp_fax','gambar','edit','delete','detil'];
   dataSource: MatTableDataSource<userTable>;
   data_table : userTable[]=[];
   check : boolean = false;
@@ -37,7 +38,7 @@ export class DataDinasComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(public ExcelExport : ExcelServiceService, public snakcBar : MatSnackBar, private httpClient:HttpClient,private changeDetector:ChangeDetectorRef,public dialog: MatDialog, public registerService : RegisterService, private _router : Router) {
+    constructor(public data : DataServiceService, public ExcelExport : ExcelServiceService, public snakcBar : MatSnackBar, private httpClient:HttpClient,private changeDetector:ChangeDetectorRef,public dialog: MatDialog, public registerService : RegisterService, private _router : Router) {
       this.get();
     }
 
@@ -78,10 +79,7 @@ export class DataDinasComponent implements OnInit {
       dialogConfig.autoFocus = true;
 
       var split = alamat_kantor.split(",");
-
-      console.log(split[1])
       split[1] = split[1].trim();
-      console.log(split[1])
 
       dialogConfig.data = {
         nama_dinas : nama_dinas,
@@ -96,7 +94,6 @@ export class DataDinasComponent implements OnInit {
         dialogRef.afterClosed().subscribe(
         data =>
           {
-
                 if(data == undefined){
                     this.snakcBar.open("You cancel the Edit Form.", 'close', { duration : 1000 })
                 } else {
@@ -110,8 +107,8 @@ export class DataDinasComponent implements OnInit {
           }
       );
     }
-    //
-    //
+
+
     /*Delete Function*/
     delete(index:number){
       const dialogConfig = new MatDialogConfig();
@@ -133,11 +130,14 @@ export class DataDinasComponent implements OnInit {
                           if(err instanceof HttpErrorResponse){
                             if(err.status === 401)
                               this._router.navigate(['/super-admin/beranda'])
+                            else if(err.status == 500)
+                              this.snakcBar.open("There's one or more lembaga left for this Dinas.", 'close', { duration : 1000 })
+                            else if(err.status == 200)
+                              this.snakcBar.open("Data Changed!", 'close', { duration : 1000 }), this.get(), this.ngAfterViewInit()}
+                            else
+                              this.snakcBar.open("Something wrong happends!.", 'close', { duration : 1000 })
                           }
-                          this.snakcBar.open("Data Changed!", 'close', { duration : 1000 }), this.get(), this.ngAfterViewInit()}
                       });
-
-
                   } else {
                       this.snakcBar.open("You cancel the Delete.", 'close', { duration : 1000 })
                   }
@@ -209,6 +209,12 @@ export class DataDinasComponent implements OnInit {
     doc.save('table.pdf')
 
   }
+
+  // Detil Dinas
+      detil(index : number){
+        this.data.changeMessage(index)
+        this._router.navigate(['/super-admin/detil'])
+      }
 
 }
 

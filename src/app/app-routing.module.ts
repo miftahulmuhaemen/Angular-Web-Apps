@@ -32,6 +32,10 @@ import { PendidikSaComponent } from './views/dashboard/superadmin/pendidik-sa/pe
 import { KependidikanSaComponent } from './views/dashboard/superadmin/kependidikan-sa/kependidikan-sa.component';
 import { PesertaDidikSaComponent } from './views/dashboard/superadmin/peserta-didik-sa/peserta-didik-sa.component';
 import { PengaturanSaComponent } from './views/dashboard/superadmin/pengaturan-sa/pengaturan-sa.component';
+import { DetilDinasComponent } from './views/dashboard/superadmin/data-dinas/detil-dinas/detil-dinas.component';
+import { PaudDetilComponent } from './views/dashboard/superadmin/lembaga-paud-sa/paud-detil/paud-detil.component';
+import { ProgramLkpComponent } from './views/dashboard/superadmin/lembaga-lkp-sa/program-lkp/program-lkp.component';
+import { LkpDetilComponent } from './views/dashboard/superadmin/lembaga-lkp-sa/lkp-detil/lkp-detil.component';
 
 const routes: Routes = [
   {
@@ -148,10 +152,7 @@ const routes: Routes = [
   {
     path : 'super-admin', component : DashboardComponent,
     children : [{ path : 'beranda', component: BerandaSaComponent}],
-    canActivate: [AuthGuard,RoleGuard],
-    data: {
-      expectedRole : 'Super Admin'
-    }
+    canActivate: [AuthGuard],
   },
   {
     path : 'super-admin', component : DashboardComponent,
@@ -169,77 +170,69 @@ const routes: Routes = [
       expectedRole : 'Super Admin'
     }
   },
+        {
+          path : 'super-admin', component : DashboardComponent,
+          children : [{ path : 'detil', component: DetilDinasComponent}],
+          canActivate: [AuthGuard,RoleGuard],
+          data: {
+            expectedRole : 'Super Admin'
+          }
+        },
   {
     path : 'super-admin', component : DashboardComponent,
     children : [{ path : 'pegawai-dinas', component: PegawaiDinasSaComponent}],
-    canActivate: [AuthGuard,RoleGuard],
-    data: {
-      expectedRole : 'Super Admin'
-    }
+    canActivate: [AuthGuard]
   },
   {
     path : 'super-admin', component : DashboardComponent,
     children : [{ path : 'potensi-daerah', component: PotensiDaerahSaComponent}],
-    canActivate: [AuthGuard,RoleGuard],
-    data: {
-      expectedRole : 'Super Admin'
-    }
+    canActivate: [AuthGuard],
   },
   {
     path : 'super-admin', component : DashboardComponent,
     children : [{ path : 'lembaga-paud', component: LembagaPaudSaComponent}],
-    canActivate: [AuthGuard,RoleGuard],
-    data: {
-      expectedRole : 'Super Admin'
-    }
+    canActivate: [AuthGuard],
   },
+
+        {
+          path : 'super-admin', component : DashboardComponent,
+          children : [{ path : 'paud-detil', component: PaudDetilComponent}],
+          canActivate: [AuthGuard],
+        },
   {
     path : 'super-admin', component : DashboardComponent,
-    children : [{ path : 'lembaga-lkp', component: LembagaLkpComponent}],
-    canActivate: [AuthGuard,RoleGuard],
-    data: {
-      expectedRole : 'Super Admin'
-    }
+    children : [{ path : 'lembaga-lkp', component: LembagaLkpSaComponent}],
+    canActivate: [AuthGuard],
   },
+          {
+            path : 'super-admin', component : DashboardComponent,
+            children : [{ path : 'program-lkp', component: ProgramLkpComponent}],
+            canActivate: [AuthGuard],
+          },
   {
     path : 'super-admin', component : DashboardComponent,
     children : [{ path : 'lembaga-pkbm', component: LembagaPkbmSaComponent}],
-    canActivate: [AuthGuard,RoleGuard],
-    data: {
-      expectedRole : 'Super Admin'
-    }
+    canActivate: [AuthGuard],
   },
   {
     path : 'super-admin', component : DashboardComponent,
     children : [{ path : 'pendidik', component: PendidikSaComponent}],
-    canActivate: [AuthGuard,RoleGuard],
-    data: {
-      expectedRole : 'Super Admin'
-    }
+    canActivate: [AuthGuard],
   },
   {
     path : 'super-admin', component : DashboardComponent,
     children : [{ path : 'kependidikan', component: KependidikanSaComponent}],
-    canActivate: [AuthGuard,RoleGuard],
-    data: {
-      expectedRole : 'Super Admin'
-    }
+    canActivate: [AuthGuard],
   },
   {
     path : 'super-admin', component : DashboardComponent,
     children : [{ path : 'peserta-didik', component: PesertaDidikSaComponent}],
-    canActivate: [AuthGuard,RoleGuard],
-    data: {
-      expectedRole : 'Super Admin'
-    }
+    canActivate: [AuthGuard],
   },
   {
     path : 'super-admin', component : DashboardComponent,
     children : [{ path : 'pengaturan', component: PengaturanSaComponent}],
-    canActivate: [AuthGuard,RoleGuard],
-    data: {
-      expectedRole : 'Super Admin'
-    }
+    canActivate: [AuthGuard],
   },
 ];
 

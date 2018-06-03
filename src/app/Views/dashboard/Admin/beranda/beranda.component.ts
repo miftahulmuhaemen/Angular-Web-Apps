@@ -10,6 +10,7 @@ export class BerandaComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }

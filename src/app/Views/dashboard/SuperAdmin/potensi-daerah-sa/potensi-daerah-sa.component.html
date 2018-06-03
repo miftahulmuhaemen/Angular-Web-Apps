@@ -1,3 +1,76 @@
-<p>
-  potensi-daerah-sa works!
-</p>
+<div class="card">
+
+  <!-- Potensi Dinas -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-5">
+                  <h4 class="card-title mb-0">Potensi Dinas</h4>
+                  <div class="small text-muted">Only can be accessed by Super Admin</div>
+                </div>
+                <!--/.col-->
+                <div class="col-sm-7 d-none d-md-block">
+                  <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                    <button *ngIf="!validity" mat-button (click)="tambahPotensi()">Tambah Potensi</button>
+                    <button mat-button (click)="exportAction()">Export to PDF</button>
+                    <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+                  </div>
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.row-->
+              <div class="container-table">
+              <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+            </mat-form-field>
+              <mat-table [dataSource]="dataSourcePotensi" matSort #table2="matSort">
+                <!-- ID Column -->
+                <ng-container matColumnDef="id_potensi" >
+                  <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >No.</mat-header-cell>
+                  <mat-cell class="hui" *matCellDef="let row"> {{row.id_potensi}} </mat-cell>
+                </ng-container>
+                <!-- Progress Column -->
+                <ng-container matColumnDef="nama_potensi">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Nama</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.nama_potensi}} </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="jenis_potensi">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Jenis Potensi</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.jenis_potensi}} </mat-cell>
+                </ng-container>
+
+                <!-- Aksi Column -->
+                <ng-container matColumnDef="edit">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+                  <mat-cell *matCellDef="let row" >
+                    <div class="container-flex">
+                    <button class="hue hui" mat-button (click)="editPotensiDetil(row.id_potensi,row.nama_potensi,row.jenis_potensi)">⎆</button>
+                  </div>
+                  </mat-cell>
+                </ng-container>
+
+                      <!-- Aksi(null) Column -->
+                      <ng-container matColumnDef="delete">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+                        <mat-cell *matCellDef="let row" >
+                          <div class="container-flex">
+                          <button class="hue" mat-button (click)="deletePotensiDetil(row.id_potensi)">✖</button>
+                        </div>
+                        </mat-cell>
+                      </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsPotensi"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsPotensi;">
+                </mat-row>
+              </mat-table>
+            </div>
+
+
+            </div>
+            <div class="container-paginator">
+                <mat-paginator #paginatorPotensiDinas [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+
+</div>

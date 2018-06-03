@@ -1,3 +1,93 @@
-<p>
-  peserta-didik-sa works!
-</p>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-5">
+        <h4 class="card-title mb-0">Peserta Didik</h4>
+        <div class="small text-muted">Only can be accessed by Super Admin</div>
+      </div>
+      <div class="col-sm-7 d-none d-md-block">
+        <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+          <button *ngIf="!validity" mat-button (click)="tambahPesertadidik()">Tambah Peserta Didik</button>
+          <button mat-button (click)="exportAction()">Export to PDF</button>
+          <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+        </div>
+      </div>
+    </div>
+    <div class="container-table">
+    <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+  </mat-form-field>
+    <mat-table [dataSource]="dataSource_Pesertadidik" matSort #table_pesertadidik="matSort">
+      <ng-container matColumnDef="id_peserta_didik" >
+        <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header > ID </mat-header-cell>
+        <mat-cell class="hui" *matCellDef="let row"> {{row.id_peserta_didik}} </mat-cell>
+        </ng-container>
+          <ng-container matColumnDef="nama_lembaga" >
+            <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >Nama Lemabga</mat-header-cell>
+            <mat-cell class="hui" *matCellDef="let row"> {{row.nama_lembaga}} </mat-cell>
+          </ng-container>
+
+      <ng-container matColumnDef="nama">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Nama</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.nama}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tempat_lahir">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Tempat Lahir</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.tempat_lahir}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tanggal_lahir">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Tanggal Lahir</mat-header-cell>
+        <mat-cell *matCellDef="let row" > {{row.tanggal_lahir}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="jenis_kelamin">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Jenis Kelamin</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.jenis_kelamin}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="alamat">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Alamat </mat-header-cell>
+        <mat-cell *matCellDef="let row" > {{row.alamat}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="kesetaraan">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Kesetaraan </mat-header-cell>
+      <mat-cell *matCellDef="let row" > {{row.kesetaraan}} </mat-cell>
+      </ng-container>
+
+                                                                            <ng-container matColumnDef="status_keaksaraan">
+                                                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Status Keaksaraan </mat-header-cell>
+                                                                            <mat-cell *matCellDef="let row" > {{row.status_keaksaraan}} </mat-cell>
+                                                                            </ng-container>
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+        <mat-cell *matCellDef="let row" >
+          <div class="container-flex">
+          <button class="hue hui" mat-button (click)="editPesertaDidik(row.id_lembaga, row.nama_lembaga, row.id_peserta_didik, row.nama, row.tempat_lahir, row.tanggal_lahir, row.jenis_kelamin, row.alamat, row.kesetaraan, row.status_keaksaraan)">⎆</button>
+        </div>
+        </mat-cell>
+      </ng-container>
+
+            <ng-container matColumnDef="delete">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+              <mat-cell *matCellDef="let row" >
+                <div class="container-flex">
+                <button class="hue" mat-button (click)="deletePesertaDidik(row.id_peserta_didik)">✖</button>
+              </div>
+              </mat-cell>
+            </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumnPesertadidik"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnPesertadidik;">
+      </mat-row>
+    </mat-table>
+  </div>
+  </div>
+  <div class="container-paginator">
+      <mat-paginator #paginator_pesertadidik [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+
+</div>

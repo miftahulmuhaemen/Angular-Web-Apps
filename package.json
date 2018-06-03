@@ -27,6 +27,7 @@
     "@coreui/coreui": "2.0.0",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "1.2.0",
     "@coreui/icons": "^0.1.1",
+    "@swimlane/ngx-charts": "^7.4.0",
     "bootstrap": "4.1.1",
     "chart.js": "^2.7.2",
     "core-js": "^2.4.1",

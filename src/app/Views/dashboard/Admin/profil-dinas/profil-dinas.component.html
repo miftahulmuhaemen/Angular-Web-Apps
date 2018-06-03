@@ -1,1 +1,19 @@
-<p> profil dinas works! </p>
+<mat-card class="example-card">
+  <mat-dialog-content [formGroup]="form">
+  <mat-card-header>
+    <mat-card-title>Profil Dinas</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="container-fluid">
+                <mat-form-field hidden><input  matInput placeholder="Nama Dinas" formControlName="nama_dinas"></mat-form-field>
+                <mat-form-field><input  matInput placeholder="Nama Dinas" formControlName="nama_dinas" readonly></mat-form-field>
+                <mat-form-field><input matInput placeholder="Alamat Kantor" formControlName="alamat_kantor" readonly></mat-form-field>
+                <mat-form-field><input matInput placeholder="Email" formControlName="email" readonly></mat-form-field>
+                <mat-form-field><input matInput placeholder="Telp/Fax" formControlName="telp_fax" readonly></mat-form-field>
+    </div>
+  </mat-card-content>
+      </mat-dialog-content>
+      <div class="container-flex">
+      <button class="mat-raised-button" (click)="edit()" [disabled]="!form.valid">Edit</button>
+      </div>
+</mat-card>

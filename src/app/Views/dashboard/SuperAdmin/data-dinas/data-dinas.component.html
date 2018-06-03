@@ -58,24 +58,34 @@
 
 
       <!-- Aksi Column -->
-      <ng-container matColumnDef="aksi">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>&emsp;&emsp;&emsp;&emsp;Aksi </mat-header-cell>
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
         <mat-cell *matCellDef="let row" >
           <div class="container-flex">
-          <button class="hue hui" mat-button (click)="edit(row.id_dinas,row.nama_dinas,row.alamat_kantor,row.email,row.telp_fax,row.gambar)">Edit</button>
+          <button class="hue hui" mat-button (click)="edit(row.id_dinas,row.nama_dinas,row.alamat_kantor,row.email,row.telp_fax,row.gambar)">⎆</button>
         </div>
         </mat-cell>
       </ng-container>
 
             <!-- Aksi(null) Column -->
-            <ng-container matColumnDef="null">
-              <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <ng-container matColumnDef="delete">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
               <mat-cell *matCellDef="let row" >
                 <div class="container-flex">
-                <button class="hue" mat-button (click)="delete(row.id_dinas)">Delete</button>
+                <button class="hue" mat-button (click)="delete(row.id_dinas)">✖</button>
               </div>
               </mat-cell>
             </ng-container>
+
+                        <!-- Aksi(null) Column -->
+                        <ng-container matColumnDef="detil">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Detil</mat-header-cell>
+                          <mat-cell *matCellDef="let row" >
+                            <div class="container-flex">
+                            <button class="hue" mat-button (click)="detil(row.id_dinas)">⚌</button>
+                          </div>
+                          </mat-cell>
+                        </ng-container>
 
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

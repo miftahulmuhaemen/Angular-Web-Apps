@@ -1,0 +1,20 @@
+.container-fluid{
+    display: flex;
+    flex-direction: column;
+}
+
+.container-flex{
+  display : flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+  padding-right: 28px;
+}
+
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-size: cover;
+}

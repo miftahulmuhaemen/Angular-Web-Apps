@@ -1,0 +1,375 @@
+<div class="card">
+  <!-- Pegawai -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-5">
+                  <h4 class="card-title mb-0">Detil {{name}}</h4>
+                  <div class="small text-muted">Only can be accessed by Super Admin</div>
+                </div>
+
+                <div class="col-sm-7 d-none d-md-block">
+                  <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                    <button mat-button (click)="exportAction()">Export to PDF</button>
+                  </div>
+                </div>
+
+              </div>
+              <mat-dialog-content>
+
+                <div class="card-body"><table class="example-full-width" cellspacing="0"><tr>
+                <td><mat-form-field><input matInput placeholder="NPSN/NILEK/NILEM" readonly>{{Obujek.id_lembaga}}</mat-form-field></td>
+                <td><mat-form-field><input matInput placeholder="Nama {{name}}"  readonly>{{Obujek.nama_lembaga}}</mat-form-field></td>
+                <td><mat-form-field *ngIf="name!='PKBM'"><input matInput placeholder="Program {{name}}"  readonly>{{Obujek.nama_program}}</mat-form-field></td>
+                <td><mat-form-field *ngIf="name!='PKBM'"><input matInput placeholder="Kurikulum"  readonly>{{Obujek.kurikulum}}</mat-form-field></td>
+                <td><mat-form-field><input matInput placeholder="Akreditasi {{name}}"  readonly>{{Obujek.akreditasi}}</mat-form-field></td>
+              </tr></table>
+              <table class="example-full-width" cellspacing="0">
+              <tr>
+                <td><mat-form-field><input matInput placeholder="Alamat"  readonly>{{Obujek.alamat_lembaga}}</mat-form-field></td>
+                <td><mat-form-field><input matInput placeholder="Kode Pos"  readonly>{{Obujek.kode_pos}}</mat-form-field></td>
+              </tr>
+            </table>
+            <table class="example-full-width" cellspacing="0">
+              <tr>
+                <td><mat-form-field><input matInput placeholder="No. Telepon"  readonly>{{Obujek.no_telepon}}</mat-form-field></td>
+                <td><mat-form-field><input matInput placeholder="Tahun Berdiri"  readonly>{{Obujek.tahun_berdiri}}</mat-form-field></td>
+                <td><mat-form-field><input matInput placeholder="Kondisi Bangunan"  readonly>{{Obujek.kondisi_bangunan}}</mat-form-field></td>
+                <td><mat-form-field><input matInput placeholder="Kepemilikan Bangunan" readonly>{{Obujek.kepemilikan}}</mat-form-field></td>
+              </tr>
+            </table></div>
+
+
+
+            </mat-dialog-content>
+
+
+              <mat-dialog-content>
+
+
+
+
+   <!-- Pegawai -->
+             <div class="card-body" style="position : sticky">
+               <div class="row">
+                 <div class="col-sm-5">
+                   <h4 class="card-title mb-0">Pendidik</h4>
+                   <div class="small text-muted">Only can be accessed by Super Admin</div>
+                 </div>
+                 <div class="col-sm-7 d-none d-md-block">
+                   <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                   <button *ngIf="!validity" mat-button (click)="tambahPendidik()">Tambah Pendidik</button>
+                     <button mat-button (click)="exportAction()">Export to PDF</button>
+                   </div>
+                 </div>
+               </div>
+               <div class="container-table">
+               <mat-form-field>
+               <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+             </mat-form-field>
+               <mat-table [dataSource]="dataSource_Pendidik" matSort #table_pendidik="matSort">
+                 <ng-container matColumnDef="id_pendidik" >
+                   <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >ID</mat-header-cell>
+                   <mat-cell class="hui" *matCellDef="let row"> {{row.id_pendidik}} </mat-cell>
+                 </ng-container>
+                   <ng-container matColumnDef="nama_lembaga" >
+                     <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >Nama Lembaga</mat-header-cell>
+                     <mat-cell class="hui" *matCellDef="let row"> {{row.nama_lembaga}} </mat-cell>
+                   </ng-container>
+                 <ng-container matColumnDef="nama">
+                   <mat-header-cell *matHeaderCellDef mat-sort-header>Nama</mat-header-cell>
+                   <mat-cell *matCellDef="let row"> {{row.nama}} </mat-cell>
+                 </ng-container>
+
+                 <ng-container matColumnDef="tempat_lahir">
+                   <mat-header-cell *matHeaderCellDef mat-sort-header>Tempat Lahir</mat-header-cell>
+                   <mat-cell *matCellDef="let row"> {{row.tempat_lahir}} </mat-cell>
+                 </ng-container>
+
+                 <ng-container matColumnDef="tanggal_lahir">
+                   <mat-header-cell *matHeaderCellDef mat-sort-header>Tanggal Lahir</mat-header-cell>
+                   <mat-cell *matCellDef="let row"> {{row.tanggal_lahir}} </mat-cell>
+                 </ng-container>
+
+                 <ng-container matColumnDef="jenis_kelamin">
+                   <mat-header-cell *matHeaderCellDef mat-sort-header> Jenis Kelamin </mat-header-cell>
+                   <mat-cell *matCellDef="let row" > {{row.jenis_kelamin}} </mat-cell>
+                 </ng-container>
+
+<ng-container matColumnDef="alamat">
+<mat-header-cell *matHeaderCellDef mat-sort-header>Alamat</mat-header-cell>
+<mat-cell *matCellDef="let row"> {{row.alamat}} </mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="pendidikan_terakhir">
+<mat-header-cell *matHeaderCellDef mat-sort-header> Pendidikan Terakhir </mat-header-cell>
+<mat-cell *matCellDef="let row" > {{row.pendidikan_terakhir}} </mat-cell>
+</ng-container>
+
+
+<ng-container matColumnDef="tahun_lulus">
+<mat-header-cell *matHeaderCellDef mat-sort-header> Tahun Lulus </mat-header-cell>
+<mat-cell *matCellDef="let row" > {{row.tahun_lulus}} </mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="status_pendidik">
+<mat-header-cell *matHeaderCellDef mat-sort-header>Status Pendidik</mat-header-cell>
+<mat-cell *matCellDef="let row"> {{row.status_pendidik}} </mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="sertifikat_pelatihan">
+<mat-header-cell *matHeaderCellDef mat-sort-header> Sertifikat Pelatihan </mat-header-cell>
+<mat-cell *matCellDef="let row" > {{row.sertifikat_pelatihan}} </mat-cell>
+</ng-container>
+
+
+<ng-container matColumnDef="status_diklat">
+<mat-header-cell *matHeaderCellDef mat-sort-header> Status Diklat </mat-header-cell>
+<mat-cell *matCellDef="let row" > {{row.status_diklat}} </mat-cell>
+</ng-container>
+
+                 <ng-container matColumnDef="edit">
+                   <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+                   <mat-cell *matCellDef="let row" >
+                     <div class="container-flex">
+                     <button class="hue hui" mat-button (click)="editPendidik(row.id_lembaga, row.id_pendidik, row.nama, row.tempat_lahir, row.tanggal_lahir, row.jenis_kelamin, row.alamat, row.pendidikan_terakhir, row.tahun_lulus, row.status_pendidik, row.sertifikat_pelatihan, row.status_diklat )">⎆</button>
+                   </div>
+                   </mat-cell>
+                 </ng-container>
+
+                       <ng-container matColumnDef="delete">
+                         <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+                         <mat-cell *matCellDef="let row" >
+                           <div class="container-flex">
+                           <button class="hue" mat-button (click)="deletePendidik(row.id_pendidik)">✖</button>
+                         </div>
+                         </mat-cell>
+                       </ng-container>
+
+
+                 <mat-header-row *matHeaderRowDef="displayedColumnPendidik"></mat-header-row>
+                 <mat-row *matRowDef="let row; columns: displayedColumnPendidik;">
+                 </mat-row>
+               </mat-table>
+             </div>
+             </div>
+             <div class="container-paginator">
+                 <mat-paginator #paginator_pendidik [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+             </div>
+
+           </mat-dialog-content>
+           <mat-dialog-content>
+               <mat-divider></mat-divider>
+
+                                 <div class="card-body">
+                                   <div class="row">
+                                     <div class="col-sm-5">
+                                       <h4 class="card-title mb-0">Kependidikan</h4>
+                                       <div class="small text-muted">Only can be accessed by Super Admin</div>
+                                     </div>
+                                     <div class="col-sm-7 d-none d-md-block">
+                                       <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                                         <button *ngIf="!validity" mat-button (click)="tambahKependidikan()">Tambah Kependidikan</button>
+                                         <button mat-button (click)="exportAction()">Export to PDF</button>
+                                       </div>
+                                     </div>
+                                   </div>
+                                   <div class="container-table">
+                                   <mat-form-field>
+                                   <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+                                 </mat-form-field>
+                                   <mat-table [dataSource]="dataSource_Kependidikan" matSort #table_kependidikan="matSort">
+
+
+                                  <ng-container matColumnDef="id_kependidikan" >
+                                  <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >ID</mat-header-cell>
+                                  <mat-cell class="hui" *matCellDef="let row"> {{row.id_kependidikan}} </mat-cell>
+                                  </ng-container>
+
+
+                                     <ng-container matColumnDef="nama_lembaga" >
+                                       <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >Nama Lembaga</mat-header-cell>
+                                       <mat-cell class="hui" *matCellDef="let row"> {{row.nama_lembaga}} </mat-cell>
+                                       </ng-container>
+
+                                         <ng-container matColumnDef="nama" >
+                                           <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >Nama</mat-header-cell>
+                                           <mat-cell class="hui" *matCellDef="let row"> {{row.nama}} </mat-cell>
+                                         </ng-container>
+
+                                     <ng-container matColumnDef="tempat_lahir">
+                                       <mat-header-cell *matHeaderCellDef mat-sort-header> Tempat Lahir</mat-header-cell>
+                                       <mat-cell *matCellDef="let row"> {{row.tempat_lahir}} </mat-cell>
+                                     </ng-container>
+
+
+                                     <ng-container matColumnDef="tanggal_lahir">
+                                       <mat-header-cell *matHeaderCellDef mat-sort-header>Tanggal Lahir</mat-header-cell>
+                                       <mat-cell *matCellDef="let row"> {{row.tanggal_lahir}} </mat-cell>
+                                     </ng-container>
+
+
+                                     <ng-container matColumnDef="jenis_kelamin">
+                                       <mat-header-cell *matHeaderCellDef mat-sort-header>Jenis Kelamin</mat-header-cell>
+                                       <mat-cell *matCellDef="let row" > {{row.jenis_kelamin}} </mat-cell>
+                                     </ng-container>
+
+
+                                     <ng-container matColumnDef="pangkat_golongan">
+                                       <mat-header-cell *matHeaderCellDef mat-sort-header>Pangkat Golongan</mat-header-cell>
+                                       <mat-cell *matCellDef="let row"> {{row.pangkat_golongan}} </mat-cell>
+                                     </ng-container>
+
+                                     <ng-container matColumnDef="alamat">
+                                       <mat-header-cell *matHeaderCellDef mat-sort-header> Alamat </mat-header-cell>
+                                       <mat-cell *matCellDef="let row" > {{row.alamat}} </mat-cell>
+                                     </ng-container>
+
+
+                                     <ng-container matColumnDef="pendidikan_terakhir">
+                                     <mat-header-cell *matHeaderCellDef mat-sort-header> Pendidikan Terakhir </mat-header-cell>
+                                     <mat-cell *matCellDef="let row" > {{row.pendidikan_terakhir}} </mat-cell>
+                                     </ng-container>
+
+<ng-container matColumnDef="tahun_lulus">
+<mat-header-cell *matHeaderCellDef mat-sort-header>Tahun Lulus</mat-header-cell>
+<mat-cell *matCellDef="let row" > {{row.tahun_lulus}} </mat-cell>
+</ng-container>
+
+
+
+<ng-container matColumnDef="edit">
+<mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+<mat-cell *matCellDef="let row" >
+<div class="container-flex">
+<button class="hue hui" mat-button (click)="editKependidikan(row.id_lembaga,row.id_kependidikan,row.nama,row.tempat_lahir,row.tanggal_lahir,row.jenis_kelamin,row.alamat,row.pendidikan_terakhir,row.tahun_lulus,row.pangkat_golongan)">⎆</button>
+</div>
+</mat-cell>
+</ng-container>
+
+                                           <ng-container matColumnDef="delete">
+                                             <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+                                             <mat-cell *matCellDef="let row" >
+                                               <div class="container-flex">
+                                               <button class="hue" mat-button (click)="deleteKependidikan(row.id_kependidikan)">✖</button>
+                                             </div>
+                                             </mat-cell>
+                                           </ng-container>
+
+
+                                     <mat-header-row *matHeaderRowDef="displayedColumnKependidikan"></mat-header-row>
+                                     <mat-row *matRowDef="let row; columns: displayedColumnKependidikan;">
+                                     </mat-row>
+                                   </mat-table>
+                                 </div>
+                                 </div>
+                                 <div class="container-paginator">
+                                     <mat-paginator #paginator_kependidikan [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                 </div>
+
+                               </mat-dialog-content>
+                               <mat-dialog-content>
+                                                <mat-divider></mat-divider>
+                                                                  <div class="card-body">
+                                                                    <div class="row">
+                                                                      <div class="col-sm-5">
+                                                                        <h4 class="card-title mb-0">Peserta Didik</h4>
+                                                                        <div class="small text-muted">Only can be accessed by Super Admin</div>
+                                                                      </div>
+                                                                      <div class="col-sm-7 d-none d-md-block">
+                                                                        <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                                                                          <button *ngIf="!validity" mat-button (click)="tambahPesertadidik()">Tambah Peserta Didik</button>
+                                                                          <button mat-button (click)="exportAction()">Export to PDF</button>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                    <div class="container-table">
+                                                                    <mat-form-field>
+                                                                    <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+                                                                  </mat-form-field>
+                                                                    <mat-table [dataSource]="dataSource_Pesertadidik" matSort #table_pesertadidik="matSort">
+                                                                      <ng-container matColumnDef="id_peserta_didik" >
+                                                                        <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header > ID </mat-header-cell>
+                                                                        <mat-cell class="hui" *matCellDef="let row"> {{row.id_peserta_didik}} </mat-cell>
+                                                                        </ng-container>
+                                                                          <ng-container matColumnDef="nama_lembaga" >
+                                                                            <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >Nama Lemabga</mat-header-cell>
+                                                                            <mat-cell class="hui" *matCellDef="let row"> {{row.nama_lembaga}} </mat-cell>
+                                                                          </ng-container>
+
+                                                                      <ng-container matColumnDef="nama">
+                                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Nama</mat-header-cell>
+                                                                        <mat-cell *matCellDef="let row"> {{row.nama}} </mat-cell>
+                                                                      </ng-container>
+
+                                                                      <ng-container matColumnDef="tempat_lahir">
+                                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Tempat Lahir</mat-header-cell>
+                                                                        <mat-cell *matCellDef="let row"> {{row.tempat_lahir}} </mat-cell>
+                                                                      </ng-container>
+
+                                                                      <ng-container matColumnDef="tanggal_lahir">
+                                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Tanggal Lahir</mat-header-cell>
+                                                                        <mat-cell *matCellDef="let row" > {{row.tanggal_lahir}} </mat-cell>
+                                                                      </ng-container>
+
+                                                                      <ng-container matColumnDef="jenis_kelamin">
+                                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Jenis Kelamin</mat-header-cell>
+                                                                        <mat-cell *matCellDef="let row"> {{row.jenis_kelamin}} </mat-cell>
+                                                                      </ng-container>
+
+                                                                      <ng-container matColumnDef="alamat">
+                                                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Alamat </mat-header-cell>
+                                                                        <mat-cell *matCellDef="let row" > {{row.alamat}} </mat-cell>
+                                                                      </ng-container>
+
+                                                                      <ng-container matColumnDef="kesetaraan">
+                                                                      <mat-header-cell *matHeaderCellDef mat-sort-header> Kesetaraan </mat-header-cell>
+                                                                      <mat-cell *matCellDef="let row" > {{row.kesetaraan}} </mat-cell>
+                                                                      </ng-container>
+
+                                                                                                                                            <ng-container matColumnDef="status_keaksaraan">
+                                                                                                                                            <mat-header-cell *matHeaderCellDef mat-sort-header> Status Keaksaraan </mat-header-cell>
+                                                                                                                                            <mat-cell *matCellDef="let row" > {{row.status_keaksaraan}} </mat-cell>
+                                                                                                                                            </ng-container>
+                                                                      <ng-container matColumnDef="edit">
+                                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+                                                                        <mat-cell *matCellDef="let row" >
+                                                                          <div class="container-flex">
+                                                                          <button class="hue hui" mat-button (click)="editPesertaDidik(row.id_lembaga, row.nama_lembaga, row.id_peserta_didik, row.nama, row.tempat_lahir, row.tanggal_lahir, row.jenis_kelamin, row.alamat, row.kesetaraan, row.status_keaksaraan)">⎆</button>
+                                                                        </div>
+                                                                        </mat-cell>
+                                                                      </ng-container>
+
+                                                                            <ng-container matColumnDef="delete">
+                                                                              <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+                                                                              <mat-cell *matCellDef="let row" >
+                                                                                <div class="container-flex">
+                                                                                <button class="hue" mat-button (click)="deletePesertaDidik(row.id_peserta_didik)">✖</button>
+                                                                              </div>
+                                                                              </mat-cell>
+                                                                            </ng-container>
+
+
+                                                                      <mat-header-row *matHeaderRowDef="displayedColumnPesertadidik"></mat-header-row>
+                                                                      <mat-row *matRowDef="let row; columns: displayedColumnPesertadidik;">
+                                                                      </mat-row>
+                                                                    </mat-table>
+                                                                  </div>
+                                                                  </div>
+                                                                  <div class="container-paginator">
+                                                                      <mat-paginator #paginator_pesertadidik [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                                                  </div>
+
+
+
+
+
+
+
+              </mat-dialog-content>
+            </div>
+
+              <mat-divider></mat-divider>
+
+
+
+</div>

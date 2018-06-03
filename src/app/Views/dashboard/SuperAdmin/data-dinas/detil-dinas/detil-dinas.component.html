@@ -1,0 +1,877 @@
+<mat-card>
+  <mat-card-content>
+    <div class="row mb-2">
+      <div class="col-sm-7">
+        <h2 class="card-title mb-0">{{ this.Obujek[0].nama_dinas }}</h2>
+        <div class="small text-muted">Alamat : {{ this.Obujek[0].alamat_kantor }}. Email : {{ this.Obujek[0].email }}, Telp : {{ this.Obujek[0].telp_fax }}</div>
+      </div>
+      <div class="col-sm-5 d-none d-md-block">
+        <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+          <button mat-button (click)="check()">Export to PDF</button>
+        </div>
+      </div>
+    </div>
+    <!-- <h2 class="example-h2">Detil Dinas</h2> -->
+    <mat-tab-group class="demo-tab-group">
+      <mat-tab label="Profil Dinas">
+
+
+              <!--/.row-->
+
+              <!-- Pegawai -->
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-sm-5">
+                              <h4 class="card-title mb-0">Pegawai</h4>
+                              <div class="small text-muted">Only can be accessed by Super Admin</div>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-7 d-none d-md-block">
+                              <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                                <button mat-button (click)="exportAction()">Export to PDF</button>
+                                <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+                              </div>
+                            </div>
+                            <!--/.col-->
+                          </div>
+                          <!--/.row-->
+                          <div class="container-table">
+                          <mat-form-field>
+                          <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+                        </mat-form-field>
+                          <mat-table [dataSource]="dataSourcePegawai" matSort #table1="matSort">
+                            <!-- ID Column -->
+                            <ng-container matColumnDef="nip" >
+                              <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >NIP</mat-header-cell>
+                              <mat-cell class="hui" *matCellDef="let row"> {{row.nip}} </mat-cell>
+                            </ng-container>
+                            <!-- Progress Column -->
+                            <ng-container matColumnDef="nama">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Nama</mat-header-cell>
+                              <mat-cell *matCellDef="let row"> {{row.nama}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="tanggal_lahir">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Tanggal Lahir</mat-header-cell>
+                              <mat-cell *matCellDef="let row"> {{row.tanggal_lahir}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Color Column -->
+                            <ng-container matColumnDef="jenis_kelamin">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Jenis Kelamin</mat-header-cell>
+                              <mat-cell *matCellDef="let row" > {{row.jenis_kelamin}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Password Column -->
+                            <ng-container matColumnDef="pangkat_golongan">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Pangkat Golongan</mat-header-cell>
+                              <mat-cell *matCellDef="let row"> {{row.pangkat_golongan}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Status Column -->
+                            <ng-container matColumnDef="no_hp">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header> No. Telpon </mat-header-cell>
+                              <mat-cell *matCellDef="let row" > {{row.no_hp}} </mat-cell>
+                            </ng-container>
+
+
+                            <!-- Status Column -->
+                            <ng-container matColumnDef="jabatan">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Jabatan </mat-header-cell>
+                            <mat-cell *matCellDef="let row" > {{row.jabatan}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Aksi Column -->
+                            <ng-container matColumnDef="edit">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+                              <mat-cell *matCellDef="let row" >
+                                <div class="container-flex">
+                                <button class="hue hui" mat-button (click)="editPegawaiDetil(row.nip,row.nama,row.tanggal_lahir,row.jenis_kelamin,row.pangkat_golongan,row.no_hp,row.jabatan)">⎆</button>
+                              </div>
+                              </mat-cell>
+                            </ng-container>
+
+                                  <!-- Aksi(null) Column -->
+                                  <ng-container matColumnDef="delete">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+                                    <mat-cell *matCellDef="let row" >
+                                      <div class="container-flex">
+                                      <button class="hue" mat-button (click)="deletePegawaiDetil(row.nip)">✖</button>
+                                    </div>
+                                    </mat-cell>
+                                  </ng-container>
+
+
+                            <mat-header-row *matHeaderRowDef="displayedColumnsPegawai"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumnsPegawai;">
+                            </mat-row>
+                          </mat-table>
+                        </div>
+                        </div>
+                        <div class="container-paginator">
+                            <mat-paginator #paginatorPegawai [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                        </div>
+
+
+                          <mat-divider></mat-divider>
+
+                        <!-- Potensi Dinas -->
+                                  <div class="card-body">
+                                    <div class="row">
+                                      <div class="col-sm-5">
+                                        <h4 class="card-title mb-0">Potensi Dinas</h4>
+                                        <div class="small text-muted">Only can be accessed by Super Admin</div>
+                                      </div>
+                                      <!--/.col-->
+                                      <div class="col-sm-7 d-none d-md-block">
+                                        <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                                          <button mat-button (click)="exportAction()">Export to PDF</button>
+                                          <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+                                        </div>
+                                      </div>
+                                      <!--/.col-->
+                                    </div>
+                                    <!--/.row-->
+                                    <div class="container-table">
+                                    <mat-form-field>
+                                    <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+                                  </mat-form-field>
+                                    <mat-table [dataSource]="dataSourcePotensi" matSort #table2="matSort">
+                                      <!-- ID Column -->
+                                      <ng-container matColumnDef="id_potensi" >
+                                        <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >No.</mat-header-cell>
+                                        <mat-cell class="hui" *matCellDef="let row"> {{row.id_potensi}} </mat-cell>
+                                      </ng-container>
+                                      <!-- Progress Column -->
+                                      <ng-container matColumnDef="nama_potensi">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Nama</mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.nama_potensi}} </mat-cell>
+                                      </ng-container>
+
+                                      <!-- Name Column -->
+                                      <ng-container matColumnDef="jenis_potensi">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Jenis Potensi</mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.jenis_potensi}} </mat-cell>
+                                      </ng-container>
+
+                                      <!-- Aksi Column -->
+                                      <ng-container matColumnDef="edit">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+                                        <mat-cell *matCellDef="let row" >
+                                          <div class="container-flex">
+                                          <button class="hue hui" mat-button (click)="editPotensiDetil(row.id_potensi,row.nama_potensi,row.jenis_potensi)">⎆</button>
+                                        </div>
+                                        </mat-cell>
+                                      </ng-container>
+
+                                            <!-- Aksi(null) Column -->
+                                            <ng-container matColumnDef="delete">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" >
+                                                <div class="container-flex">
+                                                <button class="hue" mat-button (click)="deletePotensiDetil(row.id_potensi)">✖</button>
+                                              </div>
+                                              </mat-cell>
+                                            </ng-container>
+
+
+                                      <mat-header-row *matHeaderRowDef="displayedColumnsPotensi"></mat-header-row>
+                                      <mat-row *matRowDef="let row; columns: displayedColumnsPotensi;">
+                                      </mat-row>
+                                    </mat-table>
+                                  </div>
+
+
+                                  </div>
+                                  <div class="container-paginator">
+                                      <mat-paginator #paginatorPotensiDinas [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                  </div>
+
+
+      </mat-tab>
+
+
+
+
+      <mat-tab label="PAUD">
+        <div class="demo-tab-content">
+
+                        <h5 class="card-title mb-0">Kelembagaan</h5><br/>
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Total Kelembagaan <b>{{ this.test.jumlah_lembaga }} Buah</b></h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="4" rowHeight="40px">
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">TK</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">KB</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">TPA</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">SPS</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.total_tk }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.total_kb }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.total_tpa }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.total_sps }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Status Lembaga</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="2" rowHeight="40px">
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Jumlah Terakreditasi</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Jumlah Belum Terakreditasi</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.terakreditasi }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.tidak_terakreditasi }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Kurikulum</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="2" rowHeight="40px">
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Jumlah lembaga yang menggunakan K13</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Jumlah lembaga yang menggunakan KTSP</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.total_K13 }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.total_KTSP }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Jumlah Lembaga Menurut Kepemilikan Bangunan</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="2" rowHeight="40px">
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Milik Sendiri</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Pinjam</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.total_miliksendiri }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.total_pinjam }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+                          <br/><br/><h5 class="card-title mb-0">Pendidik dan Tenaga Kependidikan</h5><br/><br/>
+
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Jumlah Tenaga Pendidik</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="3" rowHeight="40px">
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pendidik_L }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pendidik_P }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pendidik_P + this.test.pendidik_L }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+                      <mat-card>
+                        <mat-card-header>
+                          <mat-card-title><h6>Status Tenaga Kependidikan</h6></mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.kependidikan_L }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.kependidikan_P }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.kependidikan_L + this.test.kependidikan_P }}</mat-grid-tile>
+                        </mat-grid-list>
+                        </mat-card-content>
+                      </mat-card>
+
+                        <mat-card>
+                        <mat-card-header>
+                        <mat-card-title><h6>Status Pendidik</h6></mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                        <mat-grid-list cols="3" rowHeight="40px">
+                        <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Guru</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Guru Pendamping</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Guru Pengasuh</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1">{{ this.test.guru }}</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1">{{ this.test.guru_pendamping }}</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pengasuh }}</mat-grid-tile>
+                        </mat-grid-list>
+                        </mat-card-content>
+                        </mat-card>
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Kualifikasi Pendidikan</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="9" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">SMP</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">SMA</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D1</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D2</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D3</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D4</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">S1</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">S2</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">S3</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.SMP }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.SMA }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.D1 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.D2 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.D3 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.D4 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.S1 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.S2 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.S3 }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Status Pendidik</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Sertifikasi L</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Sertifikasi P</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Tidak</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.sertifikasi_L }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.sertifikasi_P }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.sertifikasi_tidak }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Jumlah PTK yang Sudah Dilatih</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Diklat Dasar</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Diklat Lanjutan</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Diklat Mahir</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.diklat_dasar }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.diklat_lanjutan }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.diklat_mahir }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+                          <br/><br/><h5 class="card-title mb-0">Peserta Didik</h5><br/><br/>
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Jumlah Anak Menurut Jenis Kelamin</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pesertadidik_L }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pesertadidik_P }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pesertadidik_L + this.test.pesertadidik_P }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+                          <mat-card>
+                            <mat-card-header>
+                              <mat-card-title><h6>Jumlah Anak Menurut Jenis Program</h6></mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                              <mat-grid-list cols="4" rowHeight="40px">
+                              <mat-grid-tile colspan="1" rowspan="1" class="header-grid">TK</mat-grid-tile>
+                              <mat-grid-tile colspan="1" rowspan="1" class="header-grid">KB</mat-grid-tile>
+                              <mat-grid-tile colspan="1" rowspan="1" class="header-grid">TPA</mat-grid-tile>
+                              <mat-grid-tile colspan="1" rowspan="1" class="header-grid">SPS</mat-grid-tile>
+                              <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pesertadidik_TK }}</mat-grid-tile>
+                              <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pesertadidik_KB }}</mat-grid-tile>
+                              <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pesertadidik_TPA }}</mat-grid-tile>
+                              <mat-grid-tile colspan="1" rowspan="1">{{ this.test.pesertadidik_SPS }}</mat-grid-tile>
+                            </mat-grid-list>
+                            </mat-card-content>
+                          </mat-card>
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Jumlah Anak Usia 0-6 Tahun Yang Sudah Terlayani PAUD</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile class="header-grid" colspan="1" rowspan="1">0-2 Tahun</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">3-4 Tahun</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">5-6 Tahun</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.tahun_02 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.tahun_34 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test.tahun_56 }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+        </div>
+      </mat-tab>
+      <mat-tab label="LKP">
+        <div class="demo-tab-content">
+
+          <div class="row mb-0">
+            <div class="col-sm-7">
+              <h5 class="card-title mb-0">Kelembagaan</h5>
+            </div>
+            <div class="col-sm-5 d-none d-md-block mb-2">
+              <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                <button mat-button (click)="exportAction()">Export to PDF</button>
+              </div>
+            </div>
+          </div>
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Jumlah LKP aktif <b>{{ this.test_2.total_lembaga }} Buah</b></h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="4" rowHeight="40px">
+                            <mat-grid-tile colspan="3" rowspan="1" class="header-grid" >Lembaga yang Terakreditasi</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="2" class="header-grid" >Belum Terakreditasi</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid" >A</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid" >B</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid" >C</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.tidak_terakreditasi }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.akreditasi_a }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.akreditasi_b }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.akreditasi_c }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+
+                        <mat-card>
+                        <mat-card-header>
+                        <mat-card-title><h6>Jumlah Lembaga Menurut Kepemilikan Bangunan</h6></mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                        <mat-grid-list cols="2" rowHeight="40px">
+                        <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Milik Sendiri</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Pinjam</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.total_miliksendiri }}</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.total_pinjam }}</mat-grid-tile>
+                        </mat-grid-list>
+                        </mat-card-content>
+                        </mat-card>
+
+
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Jumlah Lembaga Menurut Kondisi Bangunan</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="4" rowHeight="40px">
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Baik</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Rusak Ringan</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Rusak Sedang</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Rusak Berat</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.kondisi_baik }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.kondisi_rusakringan }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.kondisi_rusaksedang }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.kondisi_rusakberat }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+                          <br/><h5 class="card-title mb-0">Pendidik dan Tenaga Kependidikan</h5><br/>
+
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Jumlah Tenaga Pendidik</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="3" rowHeight="40px">
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.pendidik_L }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.pendidik_L }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.pendidik_L + this.test_2.pendidik_P }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+                      <mat-card>
+                        <mat-card-header>
+                          <mat-card-title><h6>Status Tenaga Kependidikan</h6></mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.kependidikan_L }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.kependidikan_P }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.kependidikan_L + this.test_2.kependidikan_P }}</mat-grid-tile>
+                        </mat-grid-list>
+                        </mat-card-content>
+                      </mat-card>
+
+
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Kualifikasi Pendidikan</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="9" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">SMP</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">SMA</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D1</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D2</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D3</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D4</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">S1</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">S2</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">S3</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.SMP }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.SMA }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.D1 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.D2 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.D3 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.D4 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.S1 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.S2 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.S3 }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Sertifikasi Pendidik</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Sertifikasi L</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Sertifikasi P</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Tidak Tersertifikasi</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.sertifikasi_L }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.sertifikasi_P }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.sertifikasi_tidak }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+                          <br/><h5 class="card-title mb-0">Peserta Didik</h5><br/>
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Jumlah Peserta Didik</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.pesertadidik_L }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.pesertadidik_P }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_2.pesertadidik_L + this.test.pesertadidik_P }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+
+        </div>
+      </mat-tab>
+      <mat-tab label="PKBM">
+        <div class="demo-tab-content">
+
+          <div class="row mb-0">
+            <div class="col-sm-7">
+              <h5 class="card-title mb-0">Kelembagaan</h5>
+            </div>
+            <div class="col-sm-5 d-none d-md-block mb-2">
+              <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                <button mat-button (click)="exportAction()">Export to PDF</button>
+              </div>
+            </div>
+          </div>
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Jumlah PKBM aktif <b>{{ this.test_3.total_lembaga }} Buah</b></h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="4" rowHeight="40px">
+                            <mat-grid-tile colspan="3" rowspan="1" class="header-grid" >Lembaga yang Terakreditasi</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="2" class="header-grid" >KB</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid" >A</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid" >B</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid" >C</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.tidak_terakreditasi }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.akreditasi_a }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.akreditasi_b }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.akreditasi_c }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+
+                        <mat-card>
+                        <mat-card-header>
+                        <mat-card-title><h6>Jumlah Lembaga Menurut Kepemilikan Bangunan</h6></mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                        <mat-grid-list cols="2" rowHeight="40px">
+                        <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Milik Sendiri</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Pinjam</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.total_miliksendiri }}</mat-grid-tile>
+                        <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.total_pinjam }}</mat-grid-tile>
+                        </mat-grid-list>
+                        </mat-card-content>
+                        </mat-card>
+
+
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Jumlah Lembaga Menurut Kondisi Bangunan</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="4" rowHeight="40px">
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Baik</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Rusak Ringan</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Rusak Sedang</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Rusak Berat</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.kondisi_baik }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.kondisi_rusakringan }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.kondisi_rusaksedang }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.kondisi_rusakberat }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+                          <br/><h5 class="card-title mb-0">Pendidik dan Tenaga Kependidikan</h5><br/>
+
+                        <mat-card>
+                          <mat-card-header>
+                            <mat-card-title><h6>Jumlah Tenaga Pendidik</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                            <mat-grid-list cols="3" rowHeight="40px">
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.pendidik_L }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.pendidik_L }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.pendidik_L + this.test_3.pendidik_P }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                        </mat-card>
+
+                      <mat-card>
+                        <mat-card-header>
+                          <mat-card-title><h6>Status Tenaga Kependidikan</h6></mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.kependidikan_L }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.kependidikan_P }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.kependidikan_L + this.test_3.kependidikan_P }}</mat-grid-tile>
+                        </mat-grid-list>
+                        </mat-card-content>
+                      </mat-card>
+
+
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Kualifikasi Pendidikan</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="9" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">SMP</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">SMA</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D1</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D2</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D3</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">D4</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">S1</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">S2</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">S3</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.SMP }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.SMA }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.D1 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.D2 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.D3 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.D4 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.S1 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.S2 }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.S3 }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+                          <mat-card> dasdasdsadasd
+                          <mat-card-header>
+                          <mat-card-title><h6>Sertifikasi Pendidik</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Sertifikasi L</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Sertifikasi P</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Tidak Tersertifikasi</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.sertifikasi_L }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.sertifikasi_P }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.sertifikasi_tidak }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+                          <br/><h5 class="card-title mb-0">Peserta Didik</h5><br/>
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Jumlah Peserta Didik</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.pesertadidik_L }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.pesertadidik_P }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.pesertadidik_L + this.test.pesertadidik_P }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+
+                          <mat-card>
+                          <mat-card-header>
+                          <mat-card-title><h6>Jumlah Peserta Didik Kesetaraan</h6></mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          <mat-grid-list cols="3" rowHeight="40px">
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Paket A</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Paket B</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Paket C</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.kesetaraan_A }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.kesetaraan_B }}</mat-grid-tile>
+                          <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.kesetaraan_C }}</mat-grid-tile>
+                          </mat-grid-list>
+                          </mat-card-content>
+                          </mat-card>
+
+
+        </div>
+      </mat-tab>
+      <mat-tab label="Data Penilik dan Pamong">
+
+        <!-- Pegawai -->
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <h4 class="card-title mb-0">Penilik</h4>
+                        <div class="small text-muted">Only can be accessed by Super Admin</div>
+                      </div>
+                      <!--/.col-->
+                      <div class="col-sm-7 d-none d-md-block">
+                        <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                          <button mat-button (click)="exportAction()">Export to PDF</button>
+                          <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+                        </div>
+                      </div>
+                      <!--/.col-->
+                    </div>
+                    <!--/.row-->
+                    <div class="container-table">
+                    <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
+                  </mat-form-field>
+                    <mat-table [dataSource]="dataSourcePenilik" matSort #table3="matSort">
+                      <!-- ID Column -->
+                      <ng-container matColumnDef="nip" >
+                        <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >NIP</mat-header-cell>
+                        <mat-cell class="hui" *matCellDef="let row"> {{row.nip}} </mat-cell>
+                      </ng-container>
+                      <!-- Progress Column -->
+                      <ng-container matColumnDef="nama">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Nama</mat-header-cell>
+                        <mat-cell *matCellDef="let row"> {{row.nama}} </mat-cell>
+                      </ng-container>
+
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="tanggal_lahir">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Tanggal Lahir</mat-header-cell>
+                        <mat-cell *matCellDef="let row"> {{row.tanggal_lahir}} </mat-cell>
+                      </ng-container>
+
+                      <!-- Color Column -->
+                      <ng-container matColumnDef="jenis_kelamin">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Jenis Kelamin</mat-header-cell>
+                        <mat-cell *matCellDef="let row" > {{row.jenis_kelamin}} </mat-cell>
+                      </ng-container>
+
+                      <!-- Password Column -->
+                      <ng-container matColumnDef="pangkat_golongan">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Pangkat Golongan</mat-header-cell>
+                        <mat-cell *matCellDef="let row"> {{row.pangkat_golongan}} </mat-cell>
+                      </ng-container>
+
+                      <!-- Status Column -->
+                      <ng-container matColumnDef="no_hp">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> No. Telpon </mat-header-cell>
+                        <mat-cell *matCellDef="let row" > {{row.no_hp}} </mat-cell>
+                      </ng-container>
+
+
+                      <!-- Status Column -->
+                      <ng-container matColumnDef="jabatan">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> Jabatan </mat-header-cell>
+                      <mat-cell *matCellDef="let row" > {{row.jabatan}} </mat-cell>
+                      </ng-container>
+
+                      <!-- Aksi Column -->
+                      <ng-container matColumnDef="edit">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
+                        <mat-cell *matCellDef="let row" >
+                          <div class="container-flex">
+                          <button class="hue hui" mat-button (click)="editPegawaiDetil(row.nip,row.nama,row.tanggal_lahir,row.jenis_kelamin,row.pangkat_golongan,row.no_hp,row.jabatan)">⎆</button>
+                        </div>
+                        </mat-cell>
+                      </ng-container>
+
+                            <!-- Aksi(null) Column -->
+                            <ng-container matColumnDef="delete">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
+                              <mat-cell *matCellDef="let row" >
+                                <div class="container-flex">
+                                <button class="hue" mat-button (click)="deletePegawaiDetil(row.nip)">✖</button>
+                              </div>
+                              </mat-cell>
+                            </ng-container>
+
+
+                      <mat-header-row *matHeaderRowDef="displayedColumnsPenilik"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumnsPenilik;">
+                      </mat-row>
+                    </mat-table>
+                  </div>
+                  </div>
+                  <div class="container-paginator">
+                      <mat-paginator #paginatorPenilik [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                  </div>
+
+
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

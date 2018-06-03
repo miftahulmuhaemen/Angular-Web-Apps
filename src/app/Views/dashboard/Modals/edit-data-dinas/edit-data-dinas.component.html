@@ -10,7 +10,7 @@
 
 
         <mat-form-field><input matInput placeholder="Nama Dinas" formControlName="nama_dinas"></mat-form-field>
-        <mat-form-field><input matInput placeholder="Alamat Kantor" formControlName="alamat_kantor"></mat-form-field>
+        <mat-form-field><textarea matAutosizeMinRows="2" matAutosizeMaxRows="5" matTextareaAutosize matInput placeholder="Alamat Kantor" formControlName="alamat_kantor"></textarea></mat-form-field>
 
             <mat-form-field>
               <mat-select placeholder="Kabupaten" formControlName="kabupaten" required>
@@ -21,9 +21,9 @@
 
         <input style="display: none" type="file" class="form-control" name="file" ng2FileSelect [uploader]="uploader" #fileInput/>
         <mat-form-field><input matInput placeholder="Email" formControlName="email" type="email"></mat-form-field>
-        <mat-form-field><input type="tel" matInput placeholder="Telp./Fax" formControlName="telp_fax"></mat-form-field>
+        <mat-form-field><input matInput placeholder="Telp./Fax" formControlName="telp_fax"></mat-form-field>
         <div class="container-flex">
-        <button mat-button (click)="fileInput.click()" [disabled]="!form.valid">Pilih</button>
+        <button mat-button (click)="fileInput.click()" [disabled]="!form.valid">Pilih Avatar</button>
         <button mat-button (click)="uploader.uploadAll(); field = true" [disabled]="!uploader.getNotUploadedItems().length">Upload</button>
         </div>
 <!--

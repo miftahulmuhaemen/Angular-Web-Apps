@@ -1,3 +1,21 @@
-<p>
-  peraturan works!
-</p>
+<mat-card class="example-card">
+  <mat-dialog-content [formGroup]="form">
+  <mat-card-header>
+    <mat-card-title>Pengaturan</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="container-fluid">
+                <mat-form-field hidden><input  matInput placeholder="Nama Admin/Superadmin" formControlName="password_lama"></mat-form-field>
+                <mat-form-field><input matInput placeholder="Password Lama" formControlName="password_lama"></mat-form-field>
+                <mat-form-field><input matInput placeholder="Password Baru" formControlName="password_baru"></mat-form-field>
+                <mat-form-field><input matInput placeholder="Ulangi Password Baru " formControlName="ulangi_password_baru"></mat-form-field>
+    </div>
+  </mat-card-content>
+  </mat-dialog-content>
+      <div class="container-flex">
+      <mat-dialog-actions>
+      <button class="mat-raised-button mat-primary"(click)="save()" [disabled]="!form.valid">Simpan</button>
+          <button class="mat-raised-button" (click)="close()">Batal</button>
+      </mat-dialog-actions>
+      </div>
+</mat-card>

@@ -1,3 +1,71 @@
-<p>
-  edit-pegawai-penilik works!
-</p>
+
+<h2 mat-dialog-title>{{description}}</h2>
+
+<mat-dialog-content [formGroup]="form">
+    <div class="container-fluid">
+
+
+                <mat-form-field>
+                  <mat-select formControlName="id_dinas" placeholder="Dinas" >
+                    <mat-option *ngFor="let x of dinas" [value]="x.id_dinas">
+                      {{ x.nama_dinas }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field><input matInput placeholder="NIP" formControlName="nip" disabled></mat-form-field>
+                <mat-form-field><input matInput placeholder="Nama" formControlName="nama"></mat-form-field>
+
+                <mat-form-field>
+                <input matInput formControlName="tanggal_lahir" [matDatepicker]="picker3" placeholder="Tanggal Lahir" >
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+                </mat-form-field>
+
+                <mat-radio-group formControlName="jenis_kelamin">
+                  <mat-radio-button value="Laki-Laki">Laki-Laki</mat-radio-button>
+                  <mat-radio-button value="Perempuan">Perempuan</mat-radio-button>
+                </mat-radio-group>
+
+                <mat-form-field>
+                  <mat-select formControlName="pangkat_golongan" placeholder="Pangkat/Golongan" required>
+                    <mat-option value="Juru Muda-I/a">Juru Muda-I/a</mat-option>
+                    <mat-option value="Juru Muda TK I-I/b">Juru Muda TK I-I/b</mat-option>
+                    <mat-option value="Juru-I/c">Juru-I/c</mat-option>
+                    <mat-option value="Juru TK I-I/d">Juru TK I-I/d</mat-option>
+                    <mat-option value="Pengatur Muda-II/a">Pengatur Muda-II/a</mat-option>
+                    <mat-option value="Pengatur Muda TK I-II/b">Pengatur Muda TK I-II/b</mat-option>
+                    <mat-option value="Pengatur-II/c">Pengatur-II/c</mat-option>
+                    <mat-option value="Pengatur TK I-II/d">Pengatur TK I-II/d</mat-option>
+                    <mat-option value="Penata Muda-III/a">Penata Muda-III/a</mat-option>
+                    <mat-option value="Penata Muda TK I-III/b">Penata Muda TK I-III/b</mat-option>
+                    <mat-option value="Penata-III/c">Penata-III/c</mat-option>
+                    <mat-option value="Penata TK I-III/d">Penata TK I-III/d</mat-option>
+                    <mat-option value="Pembina-IV/a">Pembina-IV/a</mat-option>
+                    <mat-option value="Pembina TK I-IV/b">Pembina TK I-IV/b</mat-option>
+                    <mat-option value="Pembina Utama Muda-IV/c">Pembina Utama Muda-IV/c</mat-option>
+                    <mat-option value="Pembina Utama Madya-IV/d">Pembina Utama Madya-IV/d</mat-option>
+                    <mat-option value="Pembina Utama-IV/e">Pembina Utama-IV/e</mat-option>
+                    <mat-option value="Belum Berpangkat">Belum Berpangkat</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field><input matInput placeholder="No. HP" formControlName="no_hp"></mat-form-field>
+                <mat-form-field *ngIf="!check">
+                  <mat-select [disabled]="check" formControlName="jabatan" placeholder="Jabatan"required>
+                          <mat-option value="Penilik">Penilik</mat-option>
+                          <mat-option value="Pamong">Pamong</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngIf="check">
+                    <input matInput placeholder="Jabatan" formControlName="jabatan" [disabled]="!check" required>
+                                </mat-form-field>
+
+    </div>
+</mat-dialog-content>
+
+<div class="container-flex">
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()" [disabled]="!form.valid">Save</button>
+</mat-dialog-actions>
+</div>
