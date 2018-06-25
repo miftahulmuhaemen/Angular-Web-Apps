@@ -21,7 +21,7 @@ export class EditPaudComponent implements OnInit {
           this.form = this.fb.group({
                 id_dinas : [data.id_dinas],
                 id_lembaga : [data.id_lembaga,Validators.required],
-                nama_lembaga : [data.nama_lembaga,Validators.required],
+                nama_lembaga : [data.nama_lembaga,Validators.required,],
                 nama_program : [data.nama_program,Validators.required],
                 kurikulum : [data.kurikulum,Validators.required],
                 akreditasi : [data.akreditasi,Validators.required],

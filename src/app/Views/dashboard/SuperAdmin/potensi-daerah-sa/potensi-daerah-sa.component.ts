@@ -10,6 +10,7 @@ import { EditPotensiComponent } from '../../modals/edit-potensi/edit-potensi.com
 import { Router } from '@angular/router';
 import { CdkTableModule  } from '@angular/cdk/table';
 import decode from 'jwt-decode';
+import { ImportXlsxService } from '../../../../services/import-xlsx.service';
 
 //Export to PDF Library
 import * as jsPDF from 'jspdf';
@@ -22,26 +23,77 @@ import 'jspdf-autotable';
 })
 export class PotensiDaerahSaComponent implements OnInit {
 
-    displayedColumnsPotensi = ['id_potensi','nama_potensi','jenis_potensi','edit','delete'];
-    dataSourcePotensi : MatTableDataSource<potensi_daerah>;
-    data_tablePotensi : potensi_daerah[]=[];
-    validity : boolean
-    @ViewChild('paginatorPotensiDinas') lolilator: MatPaginator;
-    @ViewChild('table2') sort1: MatSort;
+    displayedColumnsPotensi = ['id_potensi','nama_potensi','jenis_potensi','edit','delete']
+    dataSourcePotensi : MatTableDataSource<potensi_daerah>
+    data_tablePotensi : potensi_daerah[]=[]
 
-  constructor(
+    validity : boolean
+    header_id_dinas : number
+    header_role : string
+    header_id_akun : number
+
+    @ViewChild('paginatorPotensiDinas') lolilator: MatPaginator
+    @ViewChild('table2') sort1: MatSort
+
+  constructor(public ExcelExport : ExcelServiceService,
     private _formBuilder: FormBuilder,
     public register : RegisterService,
     public snakcBar : MatSnackBar,
     public dialog: MatDialog,
-    public _router : Router) { }
+    public _router : Router,
+    public _import : ImportXlsxService) { }
+
+    tambah_Potensi(evt: any){
+      this._import.DataStream(evt,this.header_id_dinas,'PotensiDinas')
+    }
+
+    exporttoExcel(){
+        this.ExcelExport.exportAsExcelFile(this.dataSourcePotensi.data,"Data Potensi")
+    }
+
+    exportAction(){
+
+                var columns_potensi = [
+                  {title: "ID", dataKey : "id_potensi"},
+                  {title: "Nama Potensi", dataKey : "nama_potensi"},
+                  {title: "Jenis Potensi", dataKey : "jenis_potensi"},
+                ];
+
+                var doc = new jsPDF('l', 'mm');
+
+                var header = function(data) {
+                    doc.setFontSize(18);
+                    doc.setTextColor(40);
+                    doc.setFontStyle('normal');
+                    doc.text("BP-PAUD & DIKMAS KALSEL", data.settings.margin.left, 20);
+                  };
+
+
+                var general_setting = {
+                  addPageContent: header,
+                  margin: {
+                    top: 25
+                  },
+                };
+
+                doc.autoTable(columns_potensi, this.dataSourcePotensi.data, general_setting);
+                doc.save('table.pdf')
+    }
 
   ngOnInit() {
     const token = localStorage.getItem('token');
     const tokenPayload = decode(token);
-          if(tokenPayload.role == 'Super Admin')
-            this.validity = true
-    this.getPotensiDetil();
+
+    this.header_id_dinas = tokenPayload.id_dinas
+    this.header_role = tokenPayload.role
+    this.header_id_akun = tokenPayload.id_akun
+
+    if(this.header_role == 'Super Admin')
+      this.validity = true
+
+    this._import.status.subscribe(res => {
+      this.getPotensiDetil(), this.ngAfterViewInit()
+    })
   }
 
   editPotensiDetil(id_potensi : number, nama_potensi : string, jenis_potensi : string){
@@ -52,8 +104,6 @@ export class PotensiDaerahSaComponent implements OnInit {
         jenis_potensi : jenis_potensi,
         description : "Edit Potensi Daerah"
     };
-    console.log(dialogConfig.data)
-
 
     const dialogRef = this.dialog.open(EditPotensiComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
@@ -80,7 +130,6 @@ export class PotensiDaerahSaComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
 
-        // RESTful API DeleteUser
         const dialogRef = this.dialog.open(KonfirmasiComponent, dialogConfig);
             dialogRef.afterClosed().subscribe(
             data =>
@@ -107,19 +156,12 @@ export class PotensiDaerahSaComponent implements OnInit {
   }
 
   tambahPotensi(){
-    const token = localStorage.getItem('token');
-    const tokenPayload = decode(token);
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
         description : "Tambah Potensi Daerah"
     };
-    //
-    // let eat;
-    // this.register.GET_ID_DINAS({ id_akun : tokenPayload.id_akun }).subscribe(
-    //     (data:any[]) => {
-    //       eat = data[0]
-    // }, error => console.log('Oops!', error));
 
     const dialogRef = this.dialog.open(EditPotensiComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
@@ -128,7 +170,7 @@ export class PotensiDaerahSaComponent implements OnInit {
               if(data == undefined){
                   this.snakcBar.open("You cancel the Edit Form.", 'close', { duration : 1000 })
               } else {
-                data.id_dinas = tokenPayload.id_dinas
+                data.id_dinas = this.header_id_dinas
                 this.register.ADD_POTENSI(data)
                 .subscribe({
                     error : err =>  {
@@ -143,10 +185,8 @@ export class PotensiDaerahSaComponent implements OnInit {
   }
 
   getPotensiDetil(){
-    const token = localStorage.getItem('token');
-    const tokenPayload = decode(token);
 
-    if(tokenPayload.role == 'Super Admin'){
+    if(this.header_role == 'Super Admin'){
     this.register.GET_POTENSI()
     .subscribe(
         (data:any[]) => {
@@ -159,7 +199,7 @@ export class PotensiDaerahSaComponent implements OnInit {
         console.log(error)
       }
     });} else {
-      this.register.GET_POTENSI_SPESIFIK({ id_akun : tokenPayload.id_akun })
+      this.register.GET_POTENSI_SPESIFIK({ id_akun : this.header_id_akun })
       .subscribe(
           (data:any[]) => {
            this.dataSourcePotensi.data = data;

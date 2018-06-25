@@ -4,12 +4,13 @@
     <div class="row">
       <div class="col-sm-5">
         <h4 class="card-title mb-0">Pendidik</h4>
-        <div class="small text-muted">Only can be accessed by Super Admin</div>
       </div>
       <div class="col-sm-7 d-none d-md-block">
         <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+          <input #importButtonExcel style="display: none" type="file" (change)="importExcel($event)" multiple="false" value="Import" accept=".xlsx,application/msexcel">
+          <button mat-button (click)="importButtonExcel.click()">Import</button>
           <button *ngIf="!validity" mat-button (click)="tambahPendidik()">Tambah Pendidik</button>
-         <button mat-button (click)="exportAction()">Export to PDF</button>
+          <button mat-button (click)="exportAction()">Export to PDF</button>
           <button mat-button (click)="exporttoExcel()">Export to Excel</button>
         </div>
       </div>

@@ -64,6 +64,9 @@ export class EditPendidikComponent implements OnInit {
              });
         }
 
+// Dibawah ini bisa parsernya diperbaiki fungsinya, terus
+// perbaiki bug, jika user memilih lembagab bukan LKP maka tidak muncul tutor
+// karena halaman utama pendidik masih begitu, yang import sudah benar
 
               parser(){
                       let a = new Date(this.form.value.tanggal_lahir);

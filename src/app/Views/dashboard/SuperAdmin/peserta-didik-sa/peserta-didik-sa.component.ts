@@ -10,6 +10,7 @@ import { EditPesertaDidikComponent } from '../../modals/edit-peserta-didik/edit-
 import { Router } from '@angular/router';
 import { CdkTableModule  } from '@angular/cdk/table';
 import decode from 'jwt-decode';
+import { ImportXlsxService } from '../../../../services/import-xlsx.service';
 
 //Export to PDF Library
 import * as jsPDF from 'jspdf';
@@ -26,18 +27,86 @@ export class PesertaDidikSaComponent implements OnInit {
   @ViewChild('paginator_pesertadidik') pag_pesertadidik: MatPaginator;
   @ViewChild('table_pesertadidik') sort_pesertadidik: MatSort;
   validity : boolean
-  constructor(private _formBuilder: FormBuilder,
+  header_id_dinas : number
+  header_role : string
+  header_id_akun : number
+
+
+  constructor(public ExcelExport : ExcelServiceService,
+  private _formBuilder: FormBuilder,
   public register : RegisterService,
   public snakcBar : MatSnackBar,
   public dialog: MatDialog,
-  public _router : Router) { }
+  public _router : Router,
+  public _import : ImportXlsxService) { }
+
+  importExcel(evt: any){
+    this._import.DataStream(evt,this.header_id_dinas,'pesertadidik')
+  }
+
+  exporttoExcel(){
+    this.ExcelExport.exportAsExcelFile(this.dataSource_Pesertadidik.data,"Data Peserta Didik")
+  }
+
+  exportAction(){
+
+    var columns_paud = [
+      {title: "ID", dataKey : "id_peserta_didik"},
+      {title: "Lembaga", dataKey : "nama_lembaga"},
+      {title: "Nama", dataKey : "nama"},
+      {title: "Tempat", dataKey : "tempat_lahir"},
+      {title: "Tanggal Lahir", dataKey : "tanggal_lahir"},
+      {title: "Jenis Kelamin", dataKey : "jenis_kelamin"},
+      {title: "Alamat", dataKey : "alamat"},
+      {title: "Kesetaraan", dataKey : "kesetaraan"},
+      {title: "Status Kesetaraan", dataKey : "status_keaksaraan"},
+    ];
+
+    var doc = new jsPDF('l', 'mm');
+
+    var header = function(data) {
+        doc.setFontSize(18);
+        doc.setTextColor(40);
+        doc.setFontStyle('normal');
+        doc.text("BP-PAUD & DIKMAS KALSEL", data.settings.margin.left, 20);
+      };
+
+
+    var general_setting = {
+      addPageContent: header,
+      margin: {
+        top: 25
+      },
+      styles : {
+        overflow : 'linebreak',
+      },
+      columnStyles : {
+        alamat : {
+           columnWidth: 20
+        }
+      }
+    };
+
+    doc.autoTable(columns_paud, this.dataSource_Pesertadidik.data, general_setting);
+    doc.save('table.pdf')
+
+  }
 
   ngOnInit() {
     const token = localStorage.getItem('token');
     const tokenPayload = decode(token);
-          if(tokenPayload.role == 'Super Admin')
-            this.validity = true
-    this.getPesertadidik()
+
+    this.header_id_dinas = tokenPayload.id_dinas
+    this.header_role = tokenPayload.role
+    this.header_id_akun = tokenPayload.id_akun
+
+    if(this.header_role == 'Super Admin')
+      this.validity = true
+
+    this._import.onPesertadidikStream()
+    this._import.status.subscribe(res => {
+      this.getPesertadidik(), this.ngAfterViewInit()
+    })
   }
   editPesertaDidik (
     id_lembaga : number,

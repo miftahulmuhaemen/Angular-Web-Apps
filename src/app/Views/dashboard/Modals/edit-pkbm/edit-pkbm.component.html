@@ -7,12 +7,8 @@
 
 <mat-dialog-content [formGroup]="form">
     <div class="container-fluid">
-
-
-        <mat-form-field><input matInput placeholder="NILEM" formControlName="id_lembaga"></mat-form-field>
+        <mat-form-field><input matInput   minlength="16" maxlength="18" placeholder="NILEM" formControlName="id_lembaga"></mat-form-field>
         <mat-form-field><input matInput placeholder="Nama PKBM" formControlName="nama_lembaga"></mat-form-field>
-
-
 <mat-form-field>
 <mat-select placeholder="Akreditasi" formControlName="akreditasi" required>
 <mat-option value="A">A</mat-option>
@@ -23,9 +19,9 @@
 </mat-form-field>
 
 <mat-form-field><input matInput placeholder="Alamat" formControlName="alamat_lembaga"></mat-form-field>
-<mat-form-field><input matInput placeholder="Kode Pos" formControlName="kode_pos"></mat-form-field>
-<mat-form-field><input matInput placeholder="No. Telp" formControlName="no_telepon"></mat-form-field>
-<mat-form-field><input matInput placeholder="Tahun Berdiri" formControlName="tahun_berdiri"></mat-form-field>
+<mat-form-field><input minlength="5" maxlength="5"  matInput placeholder="Kode Pos" formControlName="kode_pos"></mat-form-field>
+<mat-form-field><input type="number"  matInput placeholder="No. Telp" formControlName="no_telepon"></mat-form-field>
+<mat-form-field><input minlength="4" maxlength="4" type="number" matInput placeholder="Tahun Berdiri" formControlName="tahun_berdiri"></mat-form-field>
 
 
 <mat-form-field>

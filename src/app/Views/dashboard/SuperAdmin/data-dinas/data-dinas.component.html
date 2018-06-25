@@ -3,7 +3,6 @@
     <div class="row">
       <div class="col-sm-5">
         <h4 class="card-title mb-0">Data Dinas</h4>
-        <div class="small text-muted">Only can be accessed by Super Admin</div>
       </div>
       <!--/.col-->
       <div class="col-sm-7 d-none d-md-block">
@@ -79,7 +78,7 @@
 
                         <!-- Aksi(null) Column -->
                         <ng-container matColumnDef="detil">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Detil</mat-header-cell>
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;Laporan</mat-header-cell>
                           <mat-cell *matCellDef="let row" >
                             <div class="container-flex">
                             <button class="hue" mat-button (click)="detil(row.id_dinas)">⚌</button>

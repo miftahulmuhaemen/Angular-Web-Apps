@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Response } from '@angular/http';
-import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { Register } from '../models/register.model';
 import { Login } from '../models/login.model';
@@ -40,7 +39,7 @@ export class RegisterService {
       return this.http.post(this.rootUrl + '/superadmin/addDinas', data)
     }
 
-  loginAdmin(login : Login){
+    loginAdmin(login : Login){
       const body: Login = {
             username: login.username,
             password: login.password
@@ -321,6 +320,23 @@ export class RegisterService {
       return this.http.post(this.rootUrl + '/admin/lembaga/verifikasi', data)
     }
 
+    GET_CHART_A(data){
+      return this.http.post(this.rootUrl + '/admin/getChartA', data)
+    }
+
+    GET_CHART_SA(){
+      return this.http.get(this.rootUrl + '/superadmin/getChartSA')
+    }
+
+    GET_PENILIK_DETIL(data){
+      return this.http.post(this.rootUrl + '/superadmin/penilik/detil', data)
+    }
+
+    PENDIDIK_GET_JENIS(data){
+      return this.http.post(this.rootUrl + '/admin/pendidik/get_jenis_dinas',data)
+    }
+
+
     /*
 
       Add Error Handling :
@@ -330,5 +346,18 @@ export class RegisterService {
       4. Preloading, Caching and LazyLoading
 
     */
+
+
+    Commit(){
+      return this.http.post(this.rootUrl + '/admin/open/commit', {})
+    }
+
+    Transaction(){
+      return this.http.post(this.rootUrl + '/admin/open/transaction', {})
+    }
+
+    Rollback(){
+      return this.http.post(this.rootUrl + '/admin/open/rollback', {})
+    }
 
 }

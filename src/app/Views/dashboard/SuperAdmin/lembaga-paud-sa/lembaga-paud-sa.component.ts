@@ -11,6 +11,7 @@ import { CdkTableModule  } from '@angular/cdk/table';
 import { EditPaudComponent} from '../../modals/edit-paud/edit-paud.component'
 import { DataServiceService } from '../../../../services/data-service.service'
 import decode from 'jwt-decode';
+import { ImportXlsxService } from '../../../../services/import-xlsx.service';
 
 //Export to PDF Library
 import * as jsPDF from 'jspdf';
@@ -30,31 +31,87 @@ export class LembagaPaudSaComponent implements OnInit {
   displayedColumnsPotensi = ['id_lembaga','nama_lembaga','jenis_lembaga','nama_program','kurikulum','akreditasi','alamat_lembaga','kode_pos','no_telp','tahun_berdiri','kondisi_bangunan','kepemilikan','edit','delete','detil'];
   dataSourcePotensi : MatTableDataSource<paud>;
   data_tablePotensi : paud[]=[];
-  validity : boolean
   @ViewChild('paginatorPotensiDinas') lolilator: MatPaginator;
   @ViewChild('table2') sort1: MatSort;
 
-  constructor(public data : DataServiceService,
-    private _formBuilder: FormBuilder,
+  validity : boolean
+  header_id_dinas : number
+  header_role : string
+  header_id_akun : number
+
+  constructor(public ExcelExport : ExcelServiceService, public data : DataServiceService,
+  private _formBuilder: FormBuilder,
   public register : RegisterService,
   public snakcBar : MatSnackBar,
   public dialog: MatDialog,
-  public _router : Router) { }
+  public _router : Router,
+  public _import : ImportXlsxService) { }
+
+    importExcel(evt: any){
+      this._import.DataStream(evt,this.header_id_dinas,'lembagaPAUD')
+    }
+
+    exporttoExcel(){
+      this.ExcelExport.exportAsExcelFile(this.dataSourcePotensi.data,"Data PAUD")
+    }
+
+    exportAction(){
+
+      var columns_paud = [
+        {title: "ID", dataKey : "id_lembaga"},
+        {title: "Nama", dataKey : "nama_lembaga"},
+        {title: "Jenis", dataKey : "jenis_lembaga"},
+        {title: "Program", dataKey : "nama_program"},
+        {title: "Kurikulum", dataKey : "kurikulum"},
+        {title: "Akreditasi", dataKey : "akreditasi"},
+        {title: "Kode Pos", dataKey : "kode_pos"},
+        {title: "No. Telp.", dataKey : "no_telp"},
+        {title: "Tahun Berdiri", dataKey : "tahun_berdiri"},
+        {title: "Kondisi Bangunan", dataKey : "kondisi_bangunan"},
+        {title: "Kepemilikan", dataKey : "kepemilikan"},
+      ];
+
+      var doc = new jsPDF('l', 'mm');
+
+      var header = function(data) {
+          doc.setFontSize(18);
+          doc.setTextColor(40);
+          doc.setFontStyle('normal');
+          doc.text("BP-PAUD & DIKMAS KALSEL", data.settings.margin.left, 20);
+        };
+
+
+      var general_setting = {
+        addPageContent: header,
+        margin: {
+          top: 25
+        },
+      };
+
+      doc.autoTable(columns_paud, this.dataSourcePotensi.data, general_setting);
+      doc.save('table.pdf')
+
+    }
 
   ngOnInit() {
     const token = localStorage.getItem('token');
     const tokenPayload = decode(token);
-          if(tokenPayload.role == 'Super Admin')
-            this.validity = true
-    this.getPAUD();
+    this.header_id_dinas = tokenPayload.id_dinas
+    this.header_role = tokenPayload.role
+    this.header_id_akun = tokenPayload.id_akun
+
+    if(this.header_role == 'Super Admin')
+      this.validity = true
+
+    this._import.onLembagaPAUDStream()
+    this._import.status.subscribe(res => {
+      this.getPAUD(), this.ngAfterViewInit()
+    })
   }
 
   getPAUD(){
 
-    const token = localStorage.getItem('token');
-    const tokenPayload = decode(token);
-
-    if(tokenPayload.role == 'Super Admin'){
+    if(this.header_role == 'Super Admin'){
     this.register.GET_PAUD()
     .subscribe(
         (data:any[]) => {
@@ -67,7 +124,7 @@ export class LembagaPaudSaComponent implements OnInit {
         console.log(error)
       }
     });} else {
-      this.register.GET_PAUD_SPESIFIK({ id_akun : tokenPayload.id_akun })
+      this.register.GET_PAUD_SPESIFIK({ id_akun : this.header_id_akun })
       .subscribe(
           (data:any[]) => {
            this.dataSourcePotensi.data = data;
@@ -118,8 +175,6 @@ export class LembagaPaudSaComponent implements OnInit {
           kepemilikan : kepemilikan,
         description : "Edit PAUD"
     };
-    console.log(dialogConfig.data)
-
 
     const dialogRef = this.dialog.open(EditPaudComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
@@ -146,7 +201,7 @@ export class LembagaPaudSaComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
 
-        // RESTful API DeleteUser
+
         const dialogRef = this.dialog.open(KonfirmasiComponent, dialogConfig);
             dialogRef.afterClosed().subscribe(
             data =>
@@ -173,8 +228,6 @@ export class LembagaPaudSaComponent implements OnInit {
   }
 
   tambahLembaga(){
-    const token = localStorage.getItem('token');
-    const tokenPayload = decode(token);
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
@@ -189,8 +242,10 @@ export class LembagaPaudSaComponent implements OnInit {
               if(data == undefined){
                   this.snakcBar.open("You cancel the Edit Form.", 'close', { duration : 1000 })
               } else {
-                data.id_dinas = tokenPayload.id_dinas;
-                data.jenis_lembaga = "PAUD";
+
+                data.id_dinas = this.header_id_dinas
+                data.jenis_lembaga = "PAUD"
+
                 this.register.ADD_LEMBAGA(data)
                 .subscribe({
                     error : err =>  {

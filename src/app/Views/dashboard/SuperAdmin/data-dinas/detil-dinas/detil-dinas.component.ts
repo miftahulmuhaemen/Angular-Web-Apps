@@ -26,27 +26,24 @@ export class DetilDinasComponent implements OnInit {
   displayedColumnsPegawai = ['nip','nama','tanggal_lahir','jenis_kelamin','pangkat_golongan','no_hp','jabatan','edit','delete'];
   displayedColumnsPotensi = ['id_potensi','nama_potensi','jenis_potensi','edit','delete'];
   dataSourcePotensi : MatTableDataSource<potensi_daerah>;
-  displayedColumnsPenilik = ['nip','nama','tanggal_lahir','jenis_kelamin','pangkat_golongan','no_hp','jabatan','edit','delete'];
-  dataSourcePenilik : MatTableDataSource<pegawai>;
   dataSourcePegawai: MatTableDataSource<pegawai>;
-  data_tablePenilik : pegawai[]=[];
   data_tablePegawai : pegawai[]=[];
   data_tablePotensi : potensi_daerah[]=[];
 
   @ViewChild('paginatorPegawai') brengsektor: MatPaginator;
   @ViewChild('paginatorPotensiDinas') lolilator: MatPaginator;
-  @ViewChild('paginatorPenilik') madafaka: MatPaginator;
   @ViewChild('table1') sort: MatSort;
   @ViewChild('table2') sort1: MatSort;
-  @ViewChild('table3') sort2: MatSort;
 
     message : number;
     Obujek : body;
     test : detil_paud;
     test_2 : detil_lkp;
     test_3 : detil_pkbm;
+    test_4 : penilik;
 
-  constructor(public data : DataServiceService,
+  constructor(public ExcelExport : ExcelServiceService,
+    public data : DataServiceService,
     private _formBuilder: FormBuilder,
     public register : RegisterService,
     public snakcBar : MatSnackBar,
@@ -55,12 +52,219 @@ export class DetilDinasComponent implements OnInit {
 
     }
 
-
-    check(){
-
-
-
+    exporttoExcel(name : string){
+      if(name == "Pegawai")
+      this.ExcelExport.exportAsExcelFile(this.dataSourcePegawai.data,"Data Pegawai")
+      else if(name == "Potensi")
+      this.ExcelExport.exportAsExcelFile(this.dataSourcePotensi.data,"Data Potensi")
     }
+
+    check(state : number){
+          var columns_pegawai_penilk = [
+            {title: "NIP", dataKey : "nip"},
+            {title: "Nam", dataKey : "nama"},
+            {title: "Tanggal Lahir", dataKey : "tanggal_lahir"},
+            {title: "Jenis Kelamin", dataKey : "jenis_kelamin"},
+            {title: "Pangkat Golongan", dataKey : "pangkat_golongan"},
+            {title: "No. Hp.", dataKey : "no_hp"},
+            {title: "Jabatan", dataKey : "jabatan"},
+          ];
+
+          var columns_potensi = [
+            {title: "ID", dataKey : "id_potensi"},
+            {title: "Nama Potensi", dataKey : "nama_potensi"},
+            {title: "Jenis Potensi", dataKey : "jenis_potensi"},
+          ];
+
+          var columns_lembaga_pendidikan = [
+            {title: "SMP", dataKey : "SMP"},
+            {title: "SMA", dataKey : "SMA"},
+            {title: "D1", dataKey : "D1"},
+            {title: "D2", dataKey : "D2"},
+            {title: "D3", dataKey : "D3"},
+            {title: "D4", dataKey : "D4"},
+            {title: "S1", dataKey : "S1"},
+            {title: "S2", dataKey : "S2"},
+            {title: "S3", dataKey : "S3"},
+          ]
+
+          var columns_pendidik = [
+            {title: "Pendidik Perempuan", dataKey : "pendidik_P"},
+            {title: "Pendidik Laki-Laki", dataKey : "pendidik_L"},
+            {title: "Kependidikan Perempuan", dataKey : "kependidikan_P"},
+            {title: "Kependidikan Laki-Laki", dataKey : "kependidikan_L"},
+            {title: "Peserta Didik Laki-Laki", dataKey : "pesertadidik_L"},
+            {title: "Peserta Didik Perempuan", dataKey : "pesertadidik_P"},
+          ]
+
+          var columns_pinjam_rusak = [
+            {title: "Total Milik Sendiri", dataKey : "total_miliksendiri"},
+            {title: "Total Pinjam", dataKey : "total_pinjam"},
+            {title: "Total Kondisi Baik", dataKey : "kondisi_baik"},
+            {title: "Total Rusak Ringan", dataKey : "kondisi_rusakringan"},
+            {title: "Total Rusak Sedang", dataKey : "kondisi_rusaksedang"},
+            {title: "Kondisi Rusak Berat", dataKey : "kondisi_rusakberat"},
+          ]
+
+          var columns_paud_1 = [
+            {title: "Jumlah Lembaga", dataKey : "jumlah_lembaga"},
+            {title: "Total TK", dataKey : "total_tk"},
+            {title: "Total KB", dataKey : "total_kb"},
+            {title: "Total SPS", dataKey : "total_sps"},
+            {title: "Terakreditasi", dataKey : "terakreditasi"},
+            {title: "Tidak Terakreditasi", dataKey : "tidak_terakreditasi"},
+            {title: "Total K13", dataKey : "total_K13"},
+            {title: "Total KTSP", dataKey : "total_KTSP"},
+          ];
+
+          var columns_paud_2 = [
+            {title: "Guru", dataKey : "guru"},
+            {title: "Guru Pengasuh", dataKey : "guru_pengasuh"},
+            {title: "Guru Pendamping", dataKey : "guru_pendamping"},
+            {title: "Sertifikasi Laki-Laki", dataKey : "sertifikasi_L"},
+            {title: "Sertifikasi Perempuan", dataKey : "sertifikasi_P"},
+            {title: "Tidak Sertifikasi", dataKey : "sertifikasi_tidak"},
+            {title: "Diklat Dasar", dataKey : "diklat_dasar"},
+            {title: "Diklat Mahir", dataKey : "diklat_mahir"},
+            {title: "Diklat Lanjutan", dataKey : "diklat_lanjutan"},
+          ];
+
+          var columns_paud_3 = [
+            {title: "Peserta Didik TK", dataKey : "pesertadidik_TK"},
+            {title: "Peserta Didik KB", dataKey : "pesertadidik_KB"},
+            {title: "Peserta Didik TPA", dataKey : "pesertadidik_TPA"},
+            {title: "Peserta Didik SPS", dataKey : "pesertadidik_SPS"},
+            {title: "Umur 0 - 2 Tahun", dataKey : "tahun_02"},
+            {title: "Umur 3 - 4 Tahun", dataKey : "tahun_34"},
+            {title: "Umur 5 - 6 Tahun", dataKey : "tahun_56"}
+          ];
+
+          var columns_lkp = [
+            {title: "Jumlah Lembaga", dataKey : "total_lembaga"},
+            {title: "Akreditasi A", dataKey : "akreditasi_a"},
+            {title: "Akreditasi B", dataKey : "akreditasi_b"},
+            {title: "Akreditasi C", dataKey : "akreditasi_c"},
+            {title: "Tidak Terakreditasi", dataKey : "tidak_terakreditasi"},
+            {title: "Sertifikasi Laki-Laki", dataKey : "sertifikasi_L"},
+            {title: "Sertifikasi Perempuan", dataKey : "sertifikasi_P"},
+            {title: "Tidak Sertifikasi", dataKey : "sertifikasi_tidak"},
+          ];
+
+          var columns_pkbm = [
+            {title: "Jumlah Lembaga", dataKey : "total_lembaga"},
+            {title: "Akreditasi A", dataKey : "akreditasi_a"},
+            {title: "Akreditasi B", dataKey : "akreditasi_b"},
+            {title: "Akreditasi C", dataKey : "akreditasi_c"},
+            {title: "Tidak Terakreditasi", dataKey : "tidak_terakreditasi"},
+          ];
+
+          var columns_pkbm_2 = [
+            {title: "Sertifikasi Laki-Laki", dataKey : "sertifikasi_L"},
+            {title: "Sertifikasi Perempuan", dataKey : "sertifikasi_P"},
+            {title: "Tidak Sertifikasi", dataKey : "sertifikasi_tidak"},
+            {title: "Kesetaraan Paket A", dataKey : "kesetaraan_A"},
+            {title: "Kesetaraan Paket B", dataKey : "kesetaraan_B"},
+            {title: "Kesetaraan Paket C", dataKey : "kesetaraan_C"},
+          ];
+
+          var columns_pamong = [
+            {title: "Penilik Laki-Laki", dataKey : "Penilik_L"},
+            {title: "Penilik Perempuan", dataKey : "Penilik_P"},
+            {title: "Pamong Laki-Laki", dataKey : "Pamong_L"},
+            {title: "Pamong Perempuan", dataKey : "Pamong_P"},
+          ];
+
+
+          var doc = new jsPDF('l', 'mm');
+
+          var header = function(data) {
+              doc.setFontSize(18);
+              doc.setTextColor(40);
+              doc.setFontStyle('normal');
+              doc.text("BP-PAUD & DIKMAS KALSEL", data.settings.margin.left, 20);
+            };
+
+          var options = {
+            addPageContent: header,
+            margin: {
+              top: 25
+            },
+            startY: doc.autoTable.previous.finalY,
+          };
+
+          var general_setting = {
+            addPageContent: header,
+            margin: {
+              top: 25
+            },
+          };
+
+
+          var paud = [];  paud.push(this.test)
+          var lkp = [];  lkp.push(this.test_2)
+          var pkbm = [];  pkbm.push(this.test_3)
+          var pamong = []; pamong.push(this.test_4)
+
+          if(state == 0){
+            // <h2 class="card-title mb-0">{{ this.Obujek[0].nama_dinas }}</h2>
+            // <div class="small text-muted">Alamat : {{ this.Obujek[0].alamat_kantor }}. Email : {{ this.Obujek[0].email }}, Telp : {{ this.Obujek[0].telp_fax }}</div>
+
+                    doc.autoTable(columns_pegawai_penilk, this.dataSourcePegawai.data, { margin : { top : 20 } });
+                    doc.autoTable(columns_potensi, this.dataSourcePotensi.data, options);
+
+                    doc.autoTable(columns_paud_1, paud, options);
+                    doc.autoTable(columns_paud_2, paud, {  margin : { top : 45 } });
+                    doc.autoTable(columns_paud_3, paud, {  margin : { top : 65 }   });
+                    doc.autoTable(columns_lembaga_pendidikan, paud, {  margin : { top : 85 }  });
+                    doc.autoTable(columns_pendidik, paud, {  margin : { top : 105 }   });
+                    doc.autoTable(columns_pinjam_rusak, paud, {  margin : { top : 125 }    });
+
+                    doc.autoTable(columns_lkp, lkp, options);
+                    doc.autoTable(columns_lembaga_pendidikan, lkp, { margin : { top : 45 }  });
+                    doc.autoTable(columns_pendidik, lkp, {  margin : { top : 65 }     });
+                    doc.autoTable(columns_pinjam_rusak, lkp, {  margin : { top : 85 }   });
+
+                    doc.autoTable(columns_pkbm, pkbm, options);
+                    doc.autoTable(columns_pkbm_2, pkbm, {  margin : { top : 45 }    });
+                    doc.autoTable(columns_lembaga_pendidikan, pkbm, {  margin : { top : 65 }   });
+                    doc.autoTable(columns_pendidik, pkbm, {  margin : { top : 85 }  });
+                    doc.autoTable(columns_pinjam_rusak, pkbm, {  margin : { top : 105 } });
+
+                    doc.autoTable(columns_pamong, pamong, options);
+
+              } else if (state == 1)
+                    doc.autoTable(columns_pegawai_penilk, this.dataSourcePegawai.data, general_setting);
+                else if (state == 2){
+                     doc.autoTable(columns_pamong, pamong, options);
+                   }
+                else if (state == 3)
+                    doc.autoTable(columns_potensi, this.dataSourcePotensi.data, general_setting);
+               else if (state == 4){
+                 doc.autoTable(columns_paud_1, paud, general_setting);
+                 doc.autoTable(columns_paud_2, paud, {  margin : { top : 45 } });
+                 doc.autoTable(columns_paud_3, paud, {  margin : { top : 65 }   });
+                 doc.autoTable(columns_lembaga_pendidikan, paud, {  margin : { top : 85 }  });
+                 doc.autoTable(columns_pendidik, paud, {  margin : { top : 105 }   });
+                 doc.autoTable(columns_pinjam_rusak, paud, {  margin : { top : 125 }    });
+                 }
+                else if (state == 5){
+                  doc.autoTable(columns_lkp, lkp, general_setting);
+                  doc.autoTable(columns_lembaga_pendidikan, lkp, { margin : { top : 45 }  });
+                  doc.autoTable(columns_pendidik, lkp, {  margin : { top : 65 }     });
+                  doc.autoTable(columns_pinjam_rusak, lkp, {  margin : { top : 85 }   });
+                  }
+               else if (state == 6){
+                 doc.autoTable(columns_pkbm, pkbm, general_setting);
+                 doc.autoTable(columns_pkbm_2, pkbm, {  margin : { top : 45 }    });
+                 doc.autoTable(columns_lembaga_pendidikan, pkbm, {  margin : { top : 65 }   });
+                 doc.autoTable(columns_pendidik, pkbm, {  margin : { top : 85 }  });
+                 doc.autoTable(columns_pinjam_rusak, pkbm, {  margin : { top : 105 } });
+                 }
+
+
+          doc.save('table.pdf')
+    }
+
 
     ngOnInit() {
         this.data.currentMessage.subscribe(message => this.message = message)
@@ -75,18 +279,22 @@ export class DetilDinasComponent implements OnInit {
         })
 
         this.register.GET_LKP_TABLE({ id_dinas : this.message })
-        .subscribe((data:detil_paud) => {
+        .subscribe((data:detil_lkp) => {
             this.test_2 = data[0];
         })
 
         this.register.GET_PKBM_TABLE({ id_dinas : this.message })
-        .subscribe((data:detil_paud) => {
+        .subscribe((data:detil_pkbm) => {
             this.test_3 = data[0];
+        })
+
+        this.register.GET_PENILIK_DETIL({ id_dinas : this.message })
+        .subscribe((data:detil_pkbm) => {
+            this.test_4 = data[0];
         })
 
         this.getPegawaiDetil();
         this.getPotensiDetil();
-        this.getPenilikPamongDetil();
     }
 
 
@@ -123,7 +331,7 @@ export class DetilDinasComponent implements OnInit {
                           if(err.status === 401)
                             this._router.navigate(['/super-admin/beranda'])
                         }
-                        this.snakcBar.open("Data Created!", 'close', { duration : 1000 }), this.getPegawaiDetil(), this.getPenilikPamongDetil(), this.ngAfterViewInit()} })
+                        this.snakcBar.open("Data Created!", 'close', { duration : 1000 }), this.getPegawaiDetil(), this.ngAfterViewInit()} })
                 }
           }
       );
@@ -133,7 +341,6 @@ export class DetilDinasComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.autoFocus = true;
 
-          // RESTful API DeleteUser
           const dialogRef = this.dialog.open(KonfirmasiComponent, dialogConfig);
               dialogRef.afterClosed().subscribe(
               data =>
@@ -148,7 +355,7 @@ export class DetilDinasComponent implements OnInit {
                                   if(err.status === 401)
                                     this._router.navigate(['/super-admin/beranda'])
                                 }
-                                this.snakcBar.open("Data Changed!", 'close', { duration : 1000 }), this.getPegawaiDetil(), this.getPenilikPamongDetil(),this.ngAfterViewInit()
+                                this.snakcBar.open("Data Changed!", 'close', { duration : 1000 }), this.getPegawaiDetil(),this.ngAfterViewInit()
                               }
                             });
                         } else {
@@ -222,7 +429,6 @@ export class DetilDinasComponent implements OnInit {
     }
 
 
-    /* Restful API Get All Pegawai from certain Detil*/
     getPegawaiDetil(){
       this.register.getPegawaiDetil({ id_dinas : this.message })
       .subscribe(
@@ -260,23 +466,6 @@ export class DetilDinasComponent implements OnInit {
     }
 
 
-    getPenilikPamongDetil(){
-          this.register.getPenilikPamongDetil({ id_dinas : this.message })
-          .subscribe(
-              (data:any[]) => {
-               this.dataSourcePenilik.data = data;
-          }, error => {
-            if(error instanceof HttpErrorResponse){
-              if(error.status === 401)
-                this._router.navigate(['/super-admin/beranda'])
-            } else {
-              console.log(error)
-            }
-          });
-
-          this.dataSourcePenilik = new MatTableDataSource(this.data_tablePenilik);
-      }
-
     ngAfterViewInit() {
         this.dataSourcePegawai.paginator = this.brengsektor;
         this.dataSourcePegawai.sort = this.sort;
@@ -284,8 +473,6 @@ export class DetilDinasComponent implements OnInit {
         this.dataSourcePotensi.paginator = this.lolilator;
         this.dataSourcePotensi.sort = this.sort1;
 
-        this.dataSourcePenilik.paginator = this.madafaka;
-        this.dataSourcePenilik.sort = this.sort2;
     }
 
     applyFilter(filterValue: string) {
@@ -293,7 +480,6 @@ export class DetilDinasComponent implements OnInit {
       filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
       this.dataSourcePegawai.filter = filterValue;
       this.dataSourcePotensi.filter = filterValue;
-      this.dataSourcePenilik.filter = filterValue;
     }
 
 }
@@ -441,4 +627,11 @@ export interface body {
     Kesetaraan_A : number,
     kesetaraan_B : number,
     kesetaraan_C : number
+  }
+
+  export interface penilik {
+    Penilik_L : number,
+    Penilik_P : number,
+    Pamong_L : number,
+    Pamong_P : number
   }

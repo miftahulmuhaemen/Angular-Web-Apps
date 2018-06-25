@@ -32,6 +32,7 @@ export class EditDataDinasComponent implements OnInit {
           this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
             this.filename = JSON.parse(response).uploadname
           }
+          
           this.description = data.description;
           this.field = data.field;
           this.form = this.fb.group({

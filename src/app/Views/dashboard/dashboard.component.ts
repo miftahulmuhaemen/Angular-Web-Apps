@@ -21,9 +21,6 @@ export class DashboardComponent implements OnInit {
     state : boolean = true;
     name : string;
     role : string;
-    pict : any;
-    thot : any;
-
 
   constructor(private _auth : RegisterService,
   public snakcBar : MatSnackBar,

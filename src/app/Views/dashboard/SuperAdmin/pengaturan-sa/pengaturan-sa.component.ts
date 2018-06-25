@@ -27,10 +27,12 @@ export class PengaturanSaComponent implements OnInit {
     const tokenPayload = decode(token);
     this._data.PENGATURAN_USER({ id_akun : tokenPayload.id_akun }).subscribe(
         (data:data) => {
+            console.log(data)
           this.form = this.fb.group({
                 username : [data[0].username,Validators.required],
                 password : [data[0].password,Validators.required],
-                nama_admin : [data[0].nama_admin,Validators.required]
+                nama_admin : [data[0].nama_admin,Validators.required],
+                nama_sdmin : [data[0].nama_admin,Validators.required],
                 });
 
     }, error => console.log('Oops!', error));

@@ -4,12 +4,11 @@
               <div class="row">
                 <div class="col-sm-5">
                   <h4 class="card-title mb-0">Detil {{name}}</h4>
-                  <div class="small text-muted">Only can be accessed by Super Admin</div>
                 </div>
 
                 <div class="col-sm-7 d-none d-md-block">
                   <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                    <button mat-button (click)="exportAction()">Export to PDF</button>
+                    <button mat-button (click)="exportAction(0)">Export to PDF</button>
                   </div>
                 </div>
 
@@ -53,12 +52,12 @@
                <div class="row">
                  <div class="col-sm-5">
                    <h4 class="card-title mb-0">Pendidik</h4>
-                   <div class="small text-muted">Only can be accessed by Super Admin</div>
                  </div>
                  <div class="col-sm-7 d-none d-md-block">
                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                   <button *ngIf="!validity" mat-button (click)="tambahPendidik()">Tambah Pendidik</button>
-                     <button mat-button (click)="exportAction()">Export to PDF</button>
+                   <button *ngIf="!validity" mat-button (click)="tambahPendidik(1)">Tambah Pendidik</button>
+                     <button mat-button (click)="exportAction(1)">Export to PDF</button>
+                     <button mat-button (click)="exporttoExcel('Pendidik')">Export to PDF</button>
                    </div>
                  </div>
                </div>
@@ -164,12 +163,12 @@
                                    <div class="row">
                                      <div class="col-sm-5">
                                        <h4 class="card-title mb-0">Kependidikan</h4>
-                                       <div class="small text-muted">Only can be accessed by Super Admin</div>
                                      </div>
                                      <div class="col-sm-7 d-none d-md-block">
                                        <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
                                          <button *ngIf="!validity" mat-button (click)="tambahKependidikan()">Tambah Kependidikan</button>
-                                         <button mat-button (click)="exportAction()">Export to PDF</button>
+                                         <button mat-button (click)="exportAction(3)">Export to PDF</button>
+                                         <button mat-button (click)="exporttoExcel('Kependidikan')">Export to PDF</button>
                                        </div>
                                      </div>
                                    </div>
@@ -273,12 +272,12 @@
                                                                     <div class="row">
                                                                       <div class="col-sm-5">
                                                                         <h4 class="card-title mb-0">Peserta Didik</h4>
-                                                                        <div class="small text-muted">Only can be accessed by Super Admin</div>
                                                                       </div>
                                                                       <div class="col-sm-7 d-none d-md-block">
                                                                         <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
                                                                           <button *ngIf="!validity" mat-button (click)="tambahPesertadidik()">Tambah Peserta Didik</button>
-                                                                          <button mat-button (click)="exportAction()">Export to PDF</button>
+                                                                          <button mat-button (click)="exportAction(2)">Export to PDF</button>
+                                                                          <button mat-button (click)="exporttoExcel('PesertaDidik')">Export to PDF</button>
                                                                         </div>
                                                                       </div>
                                                                     </div>

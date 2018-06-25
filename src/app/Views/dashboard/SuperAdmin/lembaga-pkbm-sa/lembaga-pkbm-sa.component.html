@@ -5,11 +5,12 @@
               <div class="row">
                 <div class="col-sm-5">
                   <h4 class="card-title mb-0">Lembaga PKBM</h4>
-                  <div class="small text-muted">Only can be accessed by Super Admin</div>
                 </div>
                 <!--/.col-->
                 <div class="col-sm-7 d-none d-md-block">
                   <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                    <input #importButtonExcel style="display: none" type="file" (change)="importExcel($event)" multiple="false" value="Import" accept=".xlsx,application/msexcel">
+                    <button mat-button (click)="importButtonExcel.click()">Import</button>
                     <button *ngIf="!validity" mat-button (click)="tambahLembaga()">Tambah Lembaga</button>
                     <button mat-button (click)="exportAction()">Export to PDF</button>
                     <button mat-button (click)="exporttoExcel()">Export to Excel</button>
@@ -29,7 +30,7 @@
 
 
                 <!-- ID Column -->
-                <ng-container matColumnDef="id" >
+                <ng-container matColumnDef="id_lembaga" >
                   <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >ID</mat-header-cell>
                   <mat-cell class="hui" *matCellDef="let row"> {{row.id_lembaga}} </mat-cell>
                 </ng-container>
@@ -122,7 +123,7 @@
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Detil</mat-header-cell>
                                               <mat-cell *matCellDef="let row" >
                                                 <div class="container-flex">
-                                                <button class="hue" mat-button (click)="detil(row.id_lembaga)">✖</button>
+                                                <button class="hue" mat-button (click)="detil(row.id_lembaga)">⚌</button>
                                               </div>
                                               </mat-cell>
                                             </ng-container>

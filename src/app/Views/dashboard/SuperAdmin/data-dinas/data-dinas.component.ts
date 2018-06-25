@@ -109,13 +109,13 @@ export class DataDinasComponent implements OnInit {
     }
 
 
-    /*Delete Function*/
+
     delete(index:number){
       const dialogConfig = new MatDialogConfig();
       dialogConfig.autoFocus = true;
 
 
-    // RESTful API Delete User
+
     const dialogRef = this.dialog.open(KonfirmasiComponent, dialogConfig);
         dialogRef.afterClosed().subscribe(
         data =>
@@ -161,14 +161,8 @@ export class DataDinasComponent implements OnInit {
         }
       });
 
-      // Assign the data to the data source for the table to render
      this.dataSource = new MatTableDataSource(this.data_table);
     }
-
-  /**
-   * Set the paginator and sort after the view init since this component will
-   * be able to query its view for the initialized paginator and sort.
-   */
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -176,17 +170,15 @@ export class DataDinasComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
   }
 
-  //Export to Excel
   exporttoExcel(){
       this.ExcelExport.exportAsExcelFile(this.dataSource.data,"DataDinas")
   }
 
-  //Export to PDF
   exportAction(){
 
     var columns = [

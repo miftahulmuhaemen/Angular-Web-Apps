@@ -10,6 +10,7 @@ import { EditKependidikanComponent } from '../../modals/edit-kependidikan/edit-k
 import { Router } from '@angular/router';
 import { CdkTableModule  } from '@angular/cdk/table';
 import decode from 'jwt-decode';
+import { ImportXlsxService } from '../../../../services/import-xlsx.service';
 
 //Export to PDF Library
 import * as jsPDF from 'jspdf';
@@ -26,21 +27,37 @@ export class KependidikanSaComponent implements OnInit {
   data_table_Kependidikan: kependidikan[]=[];
   @ViewChild('paginator_kependidikan') paginator_kependidikan : MatPaginator;
   @ViewChild('table_kependidikan') sort_kependidikan: MatSort;
+
   validity : boolean
-  constructor(private _formBuilder: FormBuilder,
+  header_id_dinas : number
+  header_role : string
+  header_id_akun : number
+
+  constructor(public ExcelExport : ExcelServiceService, private _formBuilder: FormBuilder,
   public register : RegisterService,
   public snakcBar : MatSnackBar,
   public dialog: MatDialog,
-  public _router : Router) { }
+  public _router : Router,
+  public _import : ImportXlsxService) { }
 
 
   ngOnInit() {
     const token = localStorage.getItem('token');
     const tokenPayload = decode(token);
-          if(tokenPayload.role == 'Super Admin')
-            this.validity = true
-      this.getKependidikan()
+
+    this.header_id_dinas = tokenPayload.id_dinas
+    this.header_role = tokenPayload.role
+    this.header_id_akun = tokenPayload.id_akun
+
+    if(this.header_role == 'Super Admin')
+      this.validity = true
+
+    this._import.onKependidikanStream()
+    this._import.status.subscribe(res => {
+      this.getKependidikan(), this.ngAfterViewInit()
+    })
   }
+
   editKependidikan (
     id_lembaga : number,
     id_kependidikan : string,
@@ -192,6 +209,59 @@ export class KependidikanSaComponent implements OnInit {
     filterValue = filterValue.toLowerCase();
     this.dataSource_Kependidikan.filter = filterValue;
   }
+
+
+
+          exporttoExcel(){
+            this.ExcelExport.exportAsExcelFile(this.dataSource_Kependidikan.data,"Data Kependidikan")
+          }
+
+          exportAction(){
+
+            var columns_kependidikan = [
+              {title: "ID", dataKey : "id_pendidik"},
+              {title: "Lembaga", dataKey : "nama_lembaga"},
+              {title: "Nama", dataKey : "nama"},
+              {title: "Tempat", dataKey : "tempat_lahir"},
+              {title: "Tanggal Lahir", dataKey : "tanggal_lahir"},
+              {title: "Pangkat Golongan", dataKey : "pangkat_golongan"},
+              {title: "Jenis Kelamin", dataKey : "jenis_kelamin"},
+              {title: "Alamat", dataKey : "alamat"},
+              {title: "Pendidikan", dataKey : "pendidikan_terakhir"},
+              {title: "Tahun", dataKey : "tahun_lulus"},
+            ];
+
+            var doc = new jsPDF('l', 'mm');
+
+            var header = function(data) {
+                doc.setFontSize(18);
+                doc.setTextColor(40);
+                doc.setFontStyle('normal');
+                doc.text("BP-PAUD & DIKMAS KALSEL", data.settings.margin.left, 20);
+              };
+
+
+            var general_setting = {
+              addPageContent: header,
+              margin: {
+                top: 25
+              },
+              styles : {
+                overflow : 'linebreak',
+              },
+              columnStyles : {
+                alamat : {
+                   columnWidth: 20
+                }
+              }
+            };
+
+            doc.autoTable(columns_kependidikan, this.dataSource_Kependidikan.data, general_setting);
+            doc.save('table.pdf')
+
+          }
+
+
 }
 
 

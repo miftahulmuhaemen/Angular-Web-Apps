@@ -11,7 +11,7 @@ import { CdkTableModule  } from '@angular/cdk/table';
 import { EditPkbmComponent} from '../../modals/edit-pkbm/edit-pkbm.component'
 import { DataServiceService } from '../../../../services/data-service.service'
 import decode from 'jwt-decode';
-
+import { ImportXlsxService } from '../../../../services/import-xlsx.service';
 
 //Export to PDF Library
 import * as jsPDF from 'jspdf';
@@ -26,26 +26,85 @@ import 'jspdf-autotable';
 export class LembagaPkbmSaComponent implements OnInit {
 
 
-    displayedColumnsPotensi = ['nama_lembaga','jenis_lembaga','akreditasi','alamat_lembaga','kode_pos','no_telp','tahun_berdiri','kondisi_bangunan','kepemilikan','edit','delete','detil'];
+    displayedColumnsPotensi = ['id_lembaga','nama_lembaga','jenis_lembaga','akreditasi','alamat_lembaga','kode_pos','no_telp','tahun_berdiri','kondisi_bangunan','kepemilikan','edit','delete','detil'];
     dataSourcePotensi : MatTableDataSource<paud>;
     data_tablePotensi : paud[]=[];
-    validity : boolean
     @ViewChild('paginatorPotensiDinas') lolilator: MatPaginator;
     @ViewChild('table2') sort1: MatSort;
 
-    constructor(public data : DataServiceService,
-      private _formBuilder: FormBuilder,
+    validity : boolean
+    header_id_dinas : number
+    header_role : string
+    header_id_akun : number
+
+    constructor(public ExcelExport : ExcelServiceService,
+    public data : DataServiceService,
+    private _formBuilder: FormBuilder,
     public register : RegisterService,
     public snakcBar : MatSnackBar,
     public dialog: MatDialog,
-    public _router : Router) { }
+    public _router : Router,
+    public _import : ImportXlsxService) { }
+
+    importExcel(evt: any){
+      this._import.DataStream(evt,this.header_id_dinas,'lembagaPKBM')
+    }
+
+        exporttoExcel(){
+          this.ExcelExport.exportAsExcelFile(this.dataSourcePotensi.data,"Data PKBM")
+        }
+
+        exportAction(){
+
+          var columns_pkbm = [
+            {title: "ID", dataKey : "id_lembaga"},
+            {title: "Nama", dataKey : "nama_lembaga"},
+            {title: "Jenis", dataKey : "jenis_lembaga"},
+            {title: "Kurikulum", dataKey : "kurikulum"},
+            {title: "Akreditasi", dataKey : "akreditasi"},
+            {title: "Kode Pos", dataKey : "kode_pos"},
+            {title: "No. Telp.", dataKey : "no_telp"},
+            {title: "Tahun Berdiri", dataKey : "tahun_berdiri"},
+            {title: "Kondisi Bangunan", dataKey : "kondisi_bangunan"},
+            {title: "Kepemilikan", dataKey : "kepemilikan"},
+          ];
+
+          var doc = new jsPDF('l', 'mm');
+
+          var header = function(data) {
+              doc.setFontSize(18);
+              doc.setTextColor(40);
+              doc.setFontStyle('normal');
+              doc.text("BP-PAUD & DIKMAS KALSEL", data.settings.margin.left, 20);
+            };
+
+
+          var general_setting = {
+            addPageContent: header,
+            margin: {
+              top: 25
+            },
+          };
+
+          doc.autoTable(columns_pkbm, this.dataSourcePotensi.data, general_setting);
+          doc.save('table.pdf')
+
+        }
 
     ngOnInit() {
       const token = localStorage.getItem('token');
       const tokenPayload = decode(token);
-            if(tokenPayload.role == 'Super Admin')
-              this.validity = true
-      this.getPAUD();
+      this.header_id_dinas = tokenPayload.id_dinas
+      this.header_role = tokenPayload.role
+      this.header_id_akun = tokenPayload.id_akun
+
+      if(this.header_role == 'Super Admin')
+        this.validity = true
+
+      this._import.onLembagaLKPStream()
+      this._import.status.subscribe(res => {
+        this.getPAUD(), this.ngAfterViewInit()
+      })
     }
 
     getPAUD(){
@@ -116,7 +175,6 @@ export class LembagaPkbmSaComponent implements OnInit {
             kepemilikan : kepemilikan,
           description : "Edit PKBM"
       };
-      console.log(dialogConfig.data)
 
 
       const dialogRef = this.dialog.open(EditPkbmComponent, dialogConfig);

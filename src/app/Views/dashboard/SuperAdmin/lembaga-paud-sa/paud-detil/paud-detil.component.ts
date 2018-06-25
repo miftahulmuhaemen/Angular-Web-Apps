@@ -49,12 +49,129 @@ export class PaudDetilComponent implements OnInit {
       message : number;
       Obujek : body;
 
-  constructor(public data : DataServiceService,
+  constructor(public ExcelExport : ExcelServiceService,
+    public data : DataServiceService,
     private _formBuilder: FormBuilder,
     public register : RegisterService,
     public snakcBar : MatSnackBar,
     public dialog: MatDialog,
     public _router : Router) { }
+
+
+      exporttoExcel(name : string){
+        if(name == "Pendidik")
+        this.ExcelExport.exportAsExcelFile(this.dataSource_Pendidik.data,"Data Pendidik")
+        else if(name == "Kependidikan")
+        this.ExcelExport.exportAsExcelFile(this.dataSource_Kependidikan.data,"Data Kependidikan")
+        else if(name == "PesertaDidik")
+        this.ExcelExport.exportAsExcelFile(this.dataSource_Pesertadidik.data,"Data Peserta Didik")
+      }
+
+      exportAction(state : number){
+
+        var column_primary = [
+          {title: "ID", dataKey : "id_lembaga"},
+          {title: "Nama Lembaga", dataKey : "nama_lembaga"},
+          {title: "Program", dataKey : "nama_program"},
+          {title: "Kurikulum", dataKey : "kurikulum"},
+          {title: "Akreditasi", dataKey : "akreditasi"},
+          {title: "Alamat Lembaga", dataKey : "alamat_lembaga"},
+          {title: "No. Telp", dataKey : "no_telepon"},
+          {title: "Tahun Berdiri", dataKey : "tahun_berdiri"},
+          {title: "Kondisi", dataKey : "kondisi_bangunan"},
+          {title: "Kepemilikan", dataKey : "kepemilikan"},
+        ]
+
+        var columns_pendidik = [
+          {title: "ID", dataKey : "id_pendidik"},
+          {title: "Lembaga", dataKey : "nama_lembaga"},
+          {title: "Nama", dataKey : "nama"},
+          {title: "Tempat", dataKey : "tempat_lahir"},
+          {title: "Tanggal Lahir", dataKey : "tanggal_lahir"},
+          {title: "Jenis Kelamin", dataKey : "jenis_kelamin"},
+          {title: "Alamat", dataKey : "alamat"},
+          {title: "Pendidikan", dataKey : "pendidikan_terakhir"},
+          {title: "Tahun", dataKey : "tahun_lulus"},
+          {title: "Status Pendidik", dataKey : "status_pendidik"},
+          {title: "Sertifikat", dataKey : "sertifikat_pelatihan"},
+          {title: "Status Diklat", dataKey : "status_diklat"},
+        ];
+
+        var columns_peserta_didik = [
+          {title: "ID", dataKey : "id_peserta_didik"},
+          {title: "Lembaga", dataKey : "nama_lembaga"},
+          {title: "Nama", dataKey : "nama"},
+          {title: "Tempat", dataKey : "tempat_lahir"},
+          {title: "Tanggal Lahir", dataKey : "tanggal_lahir"},
+          {title: "Jenis Kelamin", dataKey : "jenis_kelamin"},
+          {title: "Alamat", dataKey : "alamat"},
+          {title: "Kesetaraan", dataKey : "kesetaraan"},
+          {title: "Status Kesetaraan", dataKey : "status_keaksaraan"},
+        ];
+
+        var columns_kependidikan = [
+          {title: "ID", dataKey : "id_pendidik"},
+          {title: "Lembaga", dataKey : "nama_lembaga"},
+          {title: "Nama", dataKey : "nama"},
+          {title: "Tempat", dataKey : "tempat_lahir"},
+          {title: "Tanggal Lahir", dataKey : "tanggal_lahir"},
+          {title: "Pangkat Golongan", dataKey : "pangkat_golongan"},
+          {title: "Jenis Kelamin", dataKey : "jenis_kelamin"},
+          {title: "Alamat", dataKey : "alamat"},
+          {title: "Pendidikan", dataKey : "pendidikan_terakhir"},
+          {title: "Tahun", dataKey : "tahun_lulus"},
+        ];
+
+        var doc = new jsPDF('l', 'mm');
+
+
+          var options = {
+            margin: {
+              top: 25
+            },
+            startY: doc.autoTable.previous.finalY,
+            // styles : {
+            //   overflow : 'linebreak',
+            // },
+            // columnStyles : {
+            //   alamat : {
+            //      columnWidth: 20
+            //   }
+            // }
+          };
+
+        var general_setting = {
+          margin: {
+            top: 20
+          },
+          styles : {
+            overflow : 'linebreak',
+          },
+          columnStyles : {
+            alamat : {
+               columnWidth: 20
+            }
+          }
+        };
+
+        var dummy = []; dummy.push(this.Obujek)
+
+        if(state == 0){
+            doc.autoTable(column_primary, dummy);
+            doc.autoTable(columns_pendidik, this.dataSource_Pendidik.data, options);
+            doc.autoTable(columns_peserta_didik, this.dataSource_Pesertadidik.data, options);
+            doc.autoTable(columns_kependidikan, this.dataSource_Kependidikan.data, options);
+        }
+        else if(state == 1)
+          doc.autoTable(columns_pendidik, this.dataSource_Pendidik.data, general_setting);
+        else if(state == 2)
+          doc.autoTable(columns_peserta_didik, this.dataSource_Pesertadidik.data, general_setting);
+        else if(state == 3)
+          doc.autoTable(columns_kependidikan, this.dataSource_Kependidikan.data, general_setting);
+
+        doc.save('table.pdf')
+
+      }
 
   ngOnInit() {
     const token = localStorage.getItem('token');
@@ -73,28 +190,6 @@ export class PaudDetilComponent implements OnInit {
     this.getKependidikan()
     this.getPesertadidik()
   }
-
-/*
-
-
-
-
-EDIT DELETE
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
 
 
 editPendidik (

@@ -10,6 +10,7 @@ import { MaterialModule } from './material.module';
 import { MatDatepickerModule, NativeDateModule } from '@angular/material'
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload'
 import { NgxChartsModule } from "@swimlane/ngx-charts";
+
 //Services
 import { ExcelServiceService } from './services/excel-service.service';
 import { RegisterService } from './services/register.service';
@@ -17,6 +18,7 @@ import { AuthGuard } from './auth.guard'
 import { TokenInterceptorService } from './services/token-interceptor.service'
 import { RoleGuardServiceService } from './services/role-guard-service.service'
 import { DataServiceService } from './services/data-service.service'
+import { ImportXlsxService } from './services/import-xlsx.service'
 
 //Components
 import { LoginComponent } from './views/login/login.component';
@@ -124,7 +126,7 @@ import { ProgramLkpEditComponent } from './views/dashboard/modals/program-lkp-ed
     NativeDateModule,
     NgxChartsModule
   ],
-  providers: [RegisterService, DataServiceService, ExcelServiceService, RoleGuardServiceService, AuthGuard, {
+  providers: [ImportXlsxService,RegisterService, DataServiceService, ExcelServiceService, RoleGuardServiceService, AuthGuard, {
     provide : HTTP_INTERCEPTORS,
     useClass : TokenInterceptorService,
     multi : true

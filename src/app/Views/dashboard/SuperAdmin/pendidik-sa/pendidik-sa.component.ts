@@ -10,6 +10,7 @@ import { EditPendidikComponent } from '../../modals/edit-pendidik/edit-pendidik.
 import { Router } from '@angular/router';
 import { CdkTableModule  } from '@angular/cdk/table';
 import decode from 'jwt-decode';
+import { ImportXlsxService } from '../../../../services/import-xlsx.service';
 
 //Export to PDF Library
 import * as jsPDF from 'jspdf';
@@ -27,20 +28,89 @@ export class PendidikSaComponent implements OnInit {
   data_table_Pendidik : pendidik[]=[];
   @ViewChild('paginator_pendidik') pag_pendidik: MatPaginator;
   @ViewChild('table_pendidik') sort_pendidik: MatSort;
-  validity : boolean
 
-  constructor( private _formBuilder: FormBuilder,
+  validity : boolean
+  header_id_dinas : number
+  header_role : string
+  header_id_akun : number
+
+  constructor(public ExcelExport : ExcelServiceService, private _formBuilder: FormBuilder,
     public register : RegisterService,
     public snakcBar : MatSnackBar,
     public dialog: MatDialog,
-    public _router : Router) { }
+    public _router : Router,
+    public _import : ImportXlsxService) { }
+
+    importExcel(evt: any){
+      this._import.DataStream(evt,this.header_id_dinas,'pendidik')
+    }
+
+              exporttoExcel(){
+                this.ExcelExport.exportAsExcelFile(this.dataSource_Pendidik.data,"Data Pendidik")
+              }
+
+              exportAction(){
+
+                var columns_paud = [
+                  {title: "ID", dataKey : "id_pendidik"},
+                  {title: "Lembaga", dataKey : "nama_lembaga"},
+                  {title: "Nama", dataKey : "nama"},
+                  {title: "Tempat", dataKey : "tempat_lahir"},
+                  {title: "Tanggal Lahir", dataKey : "tanggal_lahir"},
+                  {title: "Jenis Kelamin", dataKey : "jenis_kelamin"},
+                  {title: "Alamat", dataKey : "alamat"},
+                  {title: "Pendidikan", dataKey : "pendidikan_terakhir"},
+                  {title: "Tahun", dataKey : "tahun_lulus"},
+                  {title: "Status Pendidik", dataKey : "status_pendidik"},
+                  {title: "Sertifikat", dataKey : "sertifikat_pelatihan"},
+                  {title: "Status Diklat", dataKey : "status_diklat"},
+                ];
+
+                var doc = new jsPDF('l', 'mm');
+
+                var header = function(data) {
+                    doc.setFontSize(18);
+                    doc.setTextColor(40);
+                    doc.setFontStyle('normal');
+                    doc.text("BP-PAUD & DIKMAS KALSEL", data.settings.margin.left, 20);
+                  };
+
+
+                var general_setting = {
+                  addPageContent: header,
+                  margin: {
+                    top: 25
+                  },
+                  styles : {
+                    overflow : 'linebreak',
+                  },
+                  columnStyles : {
+                    alamat : {
+                       columnWidth: 20
+                    }
+                  }
+                };
+
+                doc.autoTable(columns_paud, this.dataSource_Pendidik.data, general_setting);
+                doc.save('table.pdf')
+
+              }
 
   ngOnInit() {
     const token = localStorage.getItem('token');
     const tokenPayload = decode(token);
-          if(tokenPayload.role == 'Super Admin')
-            this.validity = true
-      this.getPendidik()
+
+    this.header_id_dinas = tokenPayload.id_dinas
+    this.header_role = tokenPayload.role
+    this.header_id_akun = tokenPayload.id_akun
+
+    if(this.header_role == 'Super Admin')
+      this.validity = true
+
+    this._import.onPendidikStream()
+    this._import.status.subscribe(res => {
+      this.getPendidik(), this.ngAfterViewInit()
+    })
   }
 
   editPendidik (
@@ -136,7 +206,6 @@ export class PendidikSaComponent implements OnInit {
     .subscribe(
         (data:any[]) => {
          this.dataSource_Pendidik.data = data;
-         console.log(this.dataSource_Pendidik.data)
     }, error => {
       if(error instanceof HttpErrorResponse){
         if(error.status === 401)
@@ -149,7 +218,6 @@ export class PendidikSaComponent implements OnInit {
       .subscribe(
           (data:any[]) => {
            this.dataSource_Pendidik.data = data;
-           console.log(this.dataSource_Pendidik.data)
       }, error => {
         if(error instanceof HttpErrorResponse){
           if(error.status === 401)

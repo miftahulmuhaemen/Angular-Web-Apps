@@ -4,16 +4,80 @@
       <div style="height: 200px; ">
         <ngx-charts-bar-horizontal
             [scheme]="colorScheme"
-            [results]="single"
-            [gradient]="true"
+            [results]="pegawai"
+            gradient="false"
             [xAxis]="showXAxis"
             [yAxis]="showYAxis"
             [showXAxisLabel]="showXAxisLabel"
             [showYAxisLabel]="showYAxisLabel"
-            [yAxisLabel]="yAxisLabel"
+            [yAxisLabel]="yAxisLabel_Pegawai"
             (select)="onSelect($event)">
           </ngx-charts-bar-horizontal>
-</div>
+        </div>
     </div>
+
+    <div class="card-body">
+      <div style="height: 200px; ">
+        <ngx-charts-bar-horizontal
+            [scheme]="colorScheme_Lembaga"
+            [results]="lembaga"
+            gradient="false"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [yAxisLabel]="yAxisLabel_Lembaga"
+            (select)="onSelect($event)">
+          </ngx-charts-bar-horizontal>
+        </div>
+    </div>
+
+        <div class="card-body">
+          <div style="height: 200px; ">
+            <ngx-charts-bar-horizontal
+                [scheme]="colorScheme_Pendidik"
+                [results]="pendidik"
+                gradient="true"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [yAxisLabel]="yAxisLabel_Pendidik"
+                (select)="onSelect($event)">
+              </ngx-charts-bar-horizontal>
+            </div>
+        </div>
+
+            <div class="card-body">
+              <div style="height: 200px; ">
+                <ngx-charts-bar-horizontal
+                    [scheme]="colorScheme_Kependidikan"
+                    [results]="kependidikan"
+                    gradient="true"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [yAxisLabel]="yAxisLabel_Kependidikan"
+                    (select)="onSelect($event)">
+                  </ngx-charts-bar-horizontal>
+                </div>
+            </div>
+
+                <div class="card-body">
+                  <div style="height: 200px; ">
+                    <ngx-charts-bar-horizontal
+                        [scheme]="colorScheme_Pesertadidik"
+                        [results]="pesertadidik"
+                        gradient="true"
+                        [xAxis]="showXAxis"
+                        [yAxis]="showYAxis"
+                        [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel"
+                        [yAxisLabel]="yAxisLabel_Pesertadidik"
+                        (select)="onSelect($event)">
+                      </ngx-charts-bar-horizontal>
+                    </div>
+                </div>
 
 </div>

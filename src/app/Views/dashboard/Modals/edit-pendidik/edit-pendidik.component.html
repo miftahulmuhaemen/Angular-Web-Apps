@@ -5,7 +5,7 @@
     <div class="container-fluid">
 
 
-                <mat-form-field><input matInput placeholder="NIP/NUPTK" formControlName="nip"></mat-form-field>
+                <mat-form-field><input matInput  minlength="16" maxlength="18" placeholder="NIP/NUPTK" formControlName="nip"></mat-form-field>
                 <mat-form-field><input matInput placeholder="Nama" formControlName="nama"></mat-form-field>
                 <mat-form-field><input matInput placeholder="Tempat Lahir" formControlName="tempat_lahir"></mat-form-field>
 
@@ -54,6 +54,7 @@
                                     <mat-option value="Guru Pendamping">Guru Pendamping</mat-option>
                                     <mat-option value="Guru Pengasuh">Guru Pengasuh</mat-option>
                                     <mat-option *ngIf="name=='LKP'" value="Tutor">Tutor</mat-option>
+                                    <!-- Ini loose, dimana di main-page Pendidik tidak ada konten Name  -->
                                   </mat-select>
                                 </mat-form-field>
 

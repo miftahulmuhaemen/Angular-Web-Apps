@@ -9,7 +9,7 @@
     <div class="container-fluid">
 
 
-        <mat-form-field><input matInput placeholder="NILEK" formControlName="id_lembaga"></mat-form-field>
+        <mat-form-field><input minlength="8" maxlength="8" matInput placeholder="NILEK" formControlName="id_lembaga"></mat-form-field>
         <mat-form-field><input matInput placeholder="Nama LKP" formControlName="nama_lembaga"></mat-form-field>
 
         <mat-form-field>
@@ -18,15 +18,6 @@
           </mat-select>
         </mat-form-field>
 
-
-            <!-- <mat-form-field>
-              <mat-select placeholder="Program LKP" formControlName="nama_program" required>
-                <mat-option value="TK">TK</mat-option>
-                <mat-option value="KB">KB</mat-option>
-                <mat-option value="KB">SPS</mat-option>
-                <mat-option value="KB">TPA</mat-option>
-              </mat-select>
-            </mat-form-field> -->
 
 
 <mat-form-field>
@@ -39,9 +30,9 @@
 </mat-form-field>
 
 <mat-form-field><input matInput placeholder="Alamat" formControlName="alamat_lembaga"></mat-form-field>
-<mat-form-field><input matInput placeholder="Kode Pos" formControlName="kode_pos"></mat-form-field>
-<mat-form-field><input matInput placeholder="No. Telp" formControlName="no_telepon"></mat-form-field>
-<mat-form-field><input matInput placeholder="Tahun Berdiri" formControlName="tahun_berdiri"></mat-form-field>
+<mat-form-field><input minlength="5" maxlength="5" matInput placeholder="Kode Pos" formControlName="kode_pos"></mat-form-field>
+<mat-form-field><input type="number" matInput placeholder="No. Telp" formControlName="no_telepon"></mat-form-field>
+<mat-form-field><input minlength="4" maxlength="4" type="number" matInput placeholder="Tahun Berdiri" formControlName="tahun_berdiri"></mat-form-field>
 
 
 <mat-form-field>

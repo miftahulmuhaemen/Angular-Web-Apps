@@ -20,18 +20,12 @@
             </mat-form-field>
 
         <input style="display: none" type="file" class="form-control" name="file" ng2FileSelect [uploader]="uploader" #fileInput/>
-        <mat-form-field><input matInput placeholder="Email" formControlName="email" type="email"></mat-form-field>
+        <mat-form-field><input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" matInput placeholder="Email" formControlName="email" type="email"></mat-form-field>
         <mat-form-field><input matInput placeholder="Telp./Fax" formControlName="telp_fax"></mat-form-field>
         <div class="container-flex">
         <button mat-button (click)="fileInput.click()" [disabled]="!form.valid">Pilih Avatar</button>
         <button mat-button (click)="uploader.uploadAll(); field = true" [disabled]="!uploader.getNotUploadedItems().length">Upload</button>
         </div>
-<!--
-        <button mat-button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-         Upload all
-        </button> -->
-
-
 
 
 

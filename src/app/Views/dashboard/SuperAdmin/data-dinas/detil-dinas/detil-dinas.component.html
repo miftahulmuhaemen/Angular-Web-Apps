@@ -7,7 +7,7 @@
       </div>
       <div class="col-sm-5 d-none d-md-block">
         <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-          <button mat-button (click)="check()">Export to PDF</button>
+          <button mat-button (click)="check(0)">Export to PDF</button>
         </div>
       </div>
     </div>
@@ -23,13 +23,12 @@
                           <div class="row">
                             <div class="col-sm-5">
                               <h4 class="card-title mb-0">Pegawai</h4>
-                              <div class="small text-muted">Only can be accessed by Super Admin</div>
                             </div>
                             <!--/.col-->
                             <div class="col-sm-7 d-none d-md-block">
                               <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                                <button mat-button (click)="exportAction()">Export to PDF</button>
-                                <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+                                <button mat-button (click)="check(1)">Export to PDF</button>
+                                <button mat-button (click)="exporttoExcel('Pegawai')">Export to Excel</button>
                               </div>
                             </div>
                             <!--/.col-->
@@ -121,13 +120,12 @@
                                     <div class="row">
                                       <div class="col-sm-5">
                                         <h4 class="card-title mb-0">Potensi Dinas</h4>
-                                        <div class="small text-muted">Only can be accessed by Super Admin</div>
                                       </div>
                                       <!--/.col-->
                                       <div class="col-sm-7 d-none d-md-block">
                                         <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                                          <button mat-button (click)="exportAction()">Export to PDF</button>
-                                          <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+                                          <button mat-button (click)="check(3)">Export to PDF</button>
+                                          <button mat-button (click)="exporttoExcel('Potensi')">Export to Excel</button>
                                         </div>
                                       </div>
                                       <!--/.col-->
@@ -197,7 +195,17 @@
       <mat-tab label="PAUD">
         <div class="demo-tab-content">
 
-                        <h5 class="card-title mb-0">Kelembagaan</h5><br/>
+          <div class="row mb-0">
+            <div class="col-sm-7">
+              <h5 class="card-title mb-0">Kelembagaan</h5>
+            </div>
+            <div class="col-sm-5 d-none d-md-block mb-2">
+              <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                <button mat-button (click)="check(4)">Export to PDF</button>
+              </div>
+            </div>
+          </div>
+
                         <mat-card>
                           <mat-card-header>
                             <mat-card-title><h6>Total Kelembagaan <b>{{ this.test.jumlah_lembaga }} Buah</b></h6></mat-card-title>
@@ -431,7 +439,7 @@
             </div>
             <div class="col-sm-5 d-none d-md-block mb-2">
               <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                <button mat-button (click)="exportAction()">Export to PDF</button>
+                <button mat-button (click)="check(5)">Export to PDF</button>
               </div>
             </div>
           </div>
@@ -598,7 +606,7 @@
             </div>
             <div class="col-sm-5 d-none d-md-block mb-2">
               <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                <button mat-button (click)="exportAction()">Export to PDF</button>
+                <button mat-button (click)="check(6)">Export to PDF</button>
               </div>
             </div>
           </div>
@@ -609,14 +617,14 @@
                           <mat-card-content>
                             <mat-grid-list cols="4" rowHeight="40px">
                             <mat-grid-tile colspan="3" rowspan="1" class="header-grid" >Lembaga yang Terakreditasi</mat-grid-tile>
-                            <mat-grid-tile colspan="1" rowspan="2" class="header-grid" >KB</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="2" class="header-grid" >Belum Terakreditasi</mat-grid-tile>
                             <mat-grid-tile colspan="1" rowspan="1" class="header-grid" >A</mat-grid-tile>
                             <mat-grid-tile colspan="1" rowspan="1" class="header-grid" >B</mat-grid-tile>
                             <mat-grid-tile colspan="1" rowspan="1" class="header-grid" >C</mat-grid-tile>
-                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.tidak_terakreditasi }}</mat-grid-tile>
                             <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.akreditasi_a }}</mat-grid-tile>
                             <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.akreditasi_b }}</mat-grid-tile>
                             <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.akreditasi_c }}</mat-grid-tile>
+                            <mat-grid-tile colspan="1" rowspan="1">{{ this.test_3.tidak_terakreditasi }}</mat-grid-tile>
                           </mat-grid-list>
                           </mat-card-content>
                         </mat-card>
@@ -778,97 +786,49 @@
         <!-- Pegawai -->
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-sm-5">
-                        <h4 class="card-title mb-0">Penilik</h4>
-                        <div class="small text-muted">Only can be accessed by Super Admin</div>
+                      <div class="col-sm-7">
+                        <h4 class="card-title mb-0">Pamong dan Penilik</h4>
                       </div>
-                      <!--/.col-->
-                      <div class="col-sm-7 d-none d-md-block">
+                      <div class="col-sm-5 d-none d-md-block mb-2">
                         <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                          <button mat-button (click)="exportAction()">Export to PDF</button>
-                          <button mat-button (click)="exporttoExcel()">Export to Excel</button>
+                          <button mat-button (click)="check(6)">Export to PDF</button>
                         </div>
                       </div>
-                      <!--/.col-->
-                    </div>
-                    <!--/.row-->
-                    <div class="container-table">
-                    <mat-form-field>
-                    <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Filter">
-                  </mat-form-field>
-                    <mat-table [dataSource]="dataSourcePenilik" matSort #table3="matSort">
-                      <!-- ID Column -->
-                      <ng-container matColumnDef="nip" >
-                        <mat-header-cell class="hui" *matHeaderCellDef mat-sort-header >NIP</mat-header-cell>
-                        <mat-cell class="hui" *matCellDef="let row"> {{row.nip}} </mat-cell>
-                      </ng-container>
-                      <!-- Progress Column -->
-                      <ng-container matColumnDef="nama">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Nama</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.nama}} </mat-cell>
-                      </ng-container>
-
-                      <!-- Name Column -->
-                      <ng-container matColumnDef="tanggal_lahir">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Tanggal Lahir</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.tanggal_lahir}} </mat-cell>
-                      </ng-container>
-
-                      <!-- Color Column -->
-                      <ng-container matColumnDef="jenis_kelamin">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Jenis Kelamin</mat-header-cell>
-                        <mat-cell *matCellDef="let row" > {{row.jenis_kelamin}} </mat-cell>
-                      </ng-container>
-
-                      <!-- Password Column -->
-                      <ng-container matColumnDef="pangkat_golongan">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Pangkat Golongan</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.pangkat_golongan}} </mat-cell>
-                      </ng-container>
-
-                      <!-- Status Column -->
-                      <ng-container matColumnDef="no_hp">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header> No. Telpon </mat-header-cell>
-                        <mat-cell *matCellDef="let row" > {{row.no_hp}} </mat-cell>
-                      </ng-container>
-
-
-                      <!-- Status Column -->
-                      <ng-container matColumnDef="jabatan">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Jabatan </mat-header-cell>
-                      <mat-cell *matCellDef="let row" > {{row.jabatan}} </mat-cell>
-                      </ng-container>
-
-                      <!-- Aksi Column -->
-                      <ng-container matColumnDef="edit">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Edit</mat-header-cell>
-                        <mat-cell *matCellDef="let row" >
-                          <div class="container-flex">
-                          <button class="hue hui" mat-button (click)="editPegawaiDetil(row.nip,row.nama,row.tanggal_lahir,row.jenis_kelamin,row.pangkat_golongan,row.no_hp,row.jabatan)">⎆</button>
-                        </div>
-                        </mat-cell>
-                      </ng-container>
-
-                            <!-- Aksi(null) Column -->
-                            <ng-container matColumnDef="delete">
-                              <mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;&nbsp;Delete</mat-header-cell>
-                              <mat-cell *matCellDef="let row" >
-                                <div class="container-flex">
-                                <button class="hue" mat-button (click)="deletePegawaiDetil(row.nip)">✖</button>
-                              </div>
-                              </mat-cell>
-                            </ng-container>
-
-
-                      <mat-header-row *matHeaderRowDef="displayedColumnsPenilik"></mat-header-row>
-                      <mat-row *matRowDef="let row; columns: displayedColumnsPenilik;">
-                      </mat-row>
-                    </mat-table>
                   </div>
                   </div>
-                  <div class="container-paginator">
-                      <mat-paginator #paginatorPenilik [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-                  </div>
+
+
+                                          <mat-card>
+                                            <mat-card-header>
+                                              <mat-card-title><h6>Jumlah Penilik</h6></mat-card-title>
+                                            </mat-card-header>
+                                            <mat-card-content>
+                                              <mat-grid-list cols="3" rowHeight="40px">
+                                              <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                                              <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                                              <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                                              <mat-grid-tile colspan="1" rowspan="1">{{ this.test_4.Penilik_L }}</mat-grid-tile>
+                                              <mat-grid-tile colspan="1" rowspan="1">{{ this.test_4.Penilik_P }}</mat-grid-tile>
+                                              <mat-grid-tile colspan="1" rowspan="1">{{ this.test_4.Penilik_P + this.test_4.Penilik_L }}</mat-grid-tile>
+                                            </mat-grid-list>
+                                            </mat-card-content>
+                                          </mat-card>
+
+                                          <mat-card>
+                                            <mat-card-header>
+                                              <mat-card-title><h6>Jumlah Pamong</h6></mat-card-title>
+                                            </mat-card-header>
+                                            <mat-card-content>
+                                              <mat-grid-list cols="3" rowHeight="40px">
+                                              <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Laki-Laki</mat-grid-tile>
+                                              <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Perempuan</mat-grid-tile>
+                                              <mat-grid-tile colspan="1" rowspan="1" class="header-grid">Total</mat-grid-tile>
+                                              <mat-grid-tile colspan="1" rowspan="1">{{ this.test_4.Pamong_L }}</mat-grid-tile>
+                                              <mat-grid-tile colspan="1" rowspan="1">{{ this.test_4.Pamong_P }}</mat-grid-tile>
+                                              <mat-grid-tile colspan="1" rowspan="1">{{ this.test_4.Pamong_P + this.test_4.Pamong_L }}</mat-grid-tile>
+                                            </mat-grid-list>
+                                            </mat-card-content>
+                                          </mat-card>
 
 
       </mat-tab>

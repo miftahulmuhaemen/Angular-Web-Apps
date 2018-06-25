@@ -5,7 +5,7 @@
     <div class="container-fluid">
 
 
-                <mat-form-field><input matInput placeholder="NIP/NUPTK" formControlName="id_kependidikan"></mat-form-field>
+                <mat-form-field><input  minlength="16" maxlength="18" matInput placeholder="NIP/NUPTK" formControlName="id_kependidikan"></mat-form-field>
                 <mat-form-field><input matInput placeholder="Nama" formControlName="nama"></mat-form-field>
                 <mat-form-field><input matInput placeholder="Tempat Lahir" formControlName="tempat_lahir"></mat-form-field>
 
@@ -68,7 +68,7 @@
                     <mat-option value="S3">S3</mat-option>
                   </mat-select>
                 </mat-form-field>
-                <mat-form-field><input matInput placeholder="Tahun Lulus" formControlName="tahun_lulus"></mat-form-field>
+                <mat-form-field><input minlength="4" maxlength="4" type="number"  matInput placeholder="Tahun Lulus" formControlName="tahun_lulus"></mat-form-field>
 
 
     </div>
